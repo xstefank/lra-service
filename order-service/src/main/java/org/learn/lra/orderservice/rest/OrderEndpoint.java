@@ -1,21 +1,22 @@
 package org.learn.lra.orderservice.rest;
 
-import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.ProductInfo;
+import org.learn.lra.orderservice.service.OrderService;
 
+import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 @Path("/order")
 public class OrderEndpoint {
 
+    @EJB
+    private OrderService orderService;
 
     @POST
     @Consumes("application/json")
     public void createOrder(ProductInfo productInfo) {
-        Logger.getLogger(OrderEndpoint.class).info(String.format("%s %s %d", productInfo.getProductId(),
-                productInfo.getComment(), productInfo.getPrice()));
+        orderService.createOrder(productInfo);
     }
 }
