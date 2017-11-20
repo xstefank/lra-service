@@ -3,6 +3,7 @@ package org.learn.lra.orderservice.service;
 import io.narayana.lra.client.LRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.ProductInfo;
+import org.learn.lra.orderservice.lra.ShipmentClient;
 import org.learn.lra.orderservice.model.Order;
 
 import javax.ejb.Stateless;
@@ -23,19 +24,19 @@ public class OrderService {
     @Inject
     private LRAClient lraClient;
 
-    @Inject
-    private UriInfo context;
+//    @Inject
+//    private ShipmentClient shipmentClient;
 
-    public Order createOrder(ProductInfo productInfo) {
+    public Order createOrder(ProductInfo productInfo, String baseUri) {
         log.info("creating order...");
 
         String methodName = new Object().getClass().getEnclosingMethod().getName();
         URL lraUrlId = lraClient.startLRA(null, OrderService.class.getName() + "#"
                 + methodName, 0L, TimeUnit.SECONDS);
 
-        String recoveryPath = lraClient.joinLRA(lraUrlId, 0L, context.getBaseUri().toString(), null);
+        String recoveryPath = lraClient.joinLRA(lraUrlId, 0L, baseUri, null);
         log.infof("Starting LRA: %s when joining with baseUri: %s on enlistment gets recovery path: %s",
-                lraUrlId, context.getBaseUri(), recoveryPath);
+                lraUrlId, baseUri, recoveryPath);
 
         Order order = new Order(productInfo);
         entityManager.persist(order);
