@@ -243,7 +243,7 @@
               <all>
                 <property>
                   <name>app</name>
-                  <value>order</value>
+                  <value>api-gateway</value>
                 </property>
                 <property>
                   <name>hystrix.enabled</name>

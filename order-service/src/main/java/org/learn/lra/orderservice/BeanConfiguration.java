@@ -70,7 +70,7 @@ public class BeanConfiguration {
                 .logger(new feign.Logger.ErrorLogger()).logLevel(feign.Logger.Level.BASIC)
 //                .decoder(new JacksonDecoder())
                 .target(ApiClient.class, String.format("http://%s:%s", host, port),
-                        () -> "API response (fallback)");
+                        (String msg) -> "API response (fallback)");
 
     }
 

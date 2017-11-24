@@ -36,7 +36,7 @@ public class OrderService {
 //                lraUrlId, baseUri, recoveryPath);
 
         log.info("testing call for API-gateway");
-        log.info(apiClient.test());
+        log.info(apiClient.test("my super test message"));
 
         Order order = new Order(productInfo);
 //        entityManager.persist(order);

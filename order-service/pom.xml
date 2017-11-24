@@ -249,7 +249,7 @@
                             <all>
                                 <property>
                                     <name>app</name>
-                                    <value>order</value>
+                                    <value>order-service</value>
                                 </property>
                                 <property>
                                     <name>hystrix.enabled</name>

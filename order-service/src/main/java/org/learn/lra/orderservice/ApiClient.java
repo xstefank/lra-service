@@ -4,7 +4,7 @@ import feign.RequestLine;
 
 public interface ApiClient {
 
-    @RequestLine("GET /test")
-    String test();
+    @RequestLine("POST /api/test")
+    String test(String msg);
 
 }
