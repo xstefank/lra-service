@@ -3,6 +3,7 @@ package org.learn.lra.orderservice.service;
 import io.narayana.lra.client.LRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.ProductInfo;
+import org.learn.lra.orderservice.lra.ApiClient;
 import org.learn.lra.orderservice.lra.ShipmentClient;
 import org.learn.lra.orderservice.model.Order;
 
@@ -24,8 +25,8 @@ public class OrderService {
     @Inject
     private LRAClient lraClient;
 
-//    @Inject
-//    private ShipmentClient shipmentClient;
+    @Inject
+    private ApiClient apiClient;
 
     public Order createOrder(ProductInfo productInfo, String baseUri) {
         log.info("creating order...");
