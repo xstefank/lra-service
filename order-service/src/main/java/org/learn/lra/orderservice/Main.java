@@ -20,9 +20,9 @@ public class Main {
 
         // Add Web resources
         deployment.addAsWebResource(
-                new ClassLoaderAsset("index.html", Main.class.getClassLoader()), "index.html");
+                new ClassLoaderAsset("src/main/webapp/index.html", Main.class.getClassLoader()), "src/main/webapp/index.html");
         deployment.addAsWebInfResource(
-                new ClassLoaderAsset("WEB-INF/beans.xml", Main.class.getClassLoader()), "beans.xml");
+                new ClassLoaderAsset("src/main/webapp/WEB-INF/beans.xml", Main.class.getClassLoader()), "beans.xml");
 
 
         swarm.start().deploy(deployment);

@@ -7,5 +7,5 @@ spec:
     spec:
       containers:
       - env:
-         - name: JAVA_OPTIONS
+         - name: JAVA_OPTIONSz
            value: "-Xmx256m"

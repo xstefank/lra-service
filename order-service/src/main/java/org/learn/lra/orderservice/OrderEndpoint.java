@@ -1,7 +1,6 @@
-package org.learn.lra.orderservice.rest;
+package org.learn.lra.orderservice;
 
 import org.learn.lra.coreapi.ProductInfo;
-import org.learn.lra.orderservice.service.OrderService;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;

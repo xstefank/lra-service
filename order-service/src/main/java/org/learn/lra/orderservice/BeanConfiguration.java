@@ -1,4 +1,4 @@
-package org.learn.lra.orderservice.config;
+package org.learn.lra.orderservice;
 
 import com.uber.jaeger.metrics.Metrics;
 import com.uber.jaeger.metrics.NullStatsReporter;
@@ -16,7 +16,6 @@ import io.opentracing.Tracer;
 import io.opentracing.contrib.web.servlet.filter.TracingFilter;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.jboss.logging.Logger;
-import org.learn.lra.orderservice.lra.ApiClient;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -69,9 +68,9 @@ public class BeanConfiguration {
         return HystrixFeign.builder()
                 .client(new TracingClient(new ApacheHttpClient(HttpClientBuilder.create().build()), tracer))
                 .logger(new feign.Logger.ErrorLogger()).logLevel(feign.Logger.Level.BASIC)
-                .decoder(new JacksonDecoder())
+//                .decoder(new JacksonDecoder())
                 .target(ApiClient.class, String.format("http://%s:%s", host, port),
-                        (String lraUri) -> "Order response (fallback)");
+                        () -> "API response (fallback)");
 
     }
 

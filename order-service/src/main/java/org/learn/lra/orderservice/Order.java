@@ -1,4 +1,4 @@
-package org.learn.lra.orderservice.model;
+package org.learn.lra.orderservice;
 
 import lombok.NoArgsConstructor;
 import org.learn.lra.coreapi.ProductInfo;

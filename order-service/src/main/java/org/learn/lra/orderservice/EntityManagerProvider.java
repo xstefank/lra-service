@@ -1,4 +1,4 @@
-package org.learn.lra.orderservice.resource;
+package org.learn.lra.orderservice;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
