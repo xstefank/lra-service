@@ -10,12 +10,14 @@ import com.uber.jaeger.senders.UdpSender;
 import feign.httpclient.ApacheHttpClient;
 import feign.hystrix.HystrixFeign;
 import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 import feign.opentracing.TracingClient;
 import io.opentracing.NoopTracerFactory;
 import io.opentracing.Tracer;
 import io.opentracing.contrib.web.servlet.filter.TracingFilter;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.jboss.logging.Logger;
+import org.learn.lra.coreapi.LRA;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -68,9 +70,10 @@ public class BeanConfiguration {
         return HystrixFeign.builder()
                 .client(new TracingClient(new ApacheHttpClient(HttpClientBuilder.create().build()), tracer))
                 .logger(new feign.Logger.ErrorLogger()).logLevel(feign.Logger.Level.BASIC)
+                .encoder(new JacksonEncoder())
 //                .decoder(new JacksonDecoder())
                 .target(ApiClient.class, String.format("http://%s:%s", host, port),
-                        (String msg) -> "API response (fallback)");
+                        (LRA lra) -> "API response (fallback)");
 
     }
 

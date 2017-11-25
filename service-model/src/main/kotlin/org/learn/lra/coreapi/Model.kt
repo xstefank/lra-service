@@ -3,16 +3,9 @@ package org.learn.lra.coreapi
 enum class Service {
     ORDER,
     SHIPMENT,
-    INVOICE
+    INVOICE,
+    NOT_AVAILABLE
 }
 
-data class Action(val name : String, val service: Service)
+data class Action(val name : String = "", val service: Service = Service.NOT_AVAILABLE)
 
-interface LRA {
-
-    fun getId() : String
-
-    fun getName() : String
-
-    fun getActions() : List<Action>
-}

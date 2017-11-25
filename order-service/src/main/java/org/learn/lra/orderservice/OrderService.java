@@ -2,13 +2,15 @@ package org.learn.lra.orderservice;
 
 import io.narayana.lra.client.LRAClient;
 import org.jboss.logging.Logger;
+import org.learn.lra.coreapi.Action;
+import org.learn.lra.coreapi.LRA;
+import org.learn.lra.coreapi.LRABuilder;
 import org.learn.lra.coreapi.ProductInfo;
+import org.learn.lra.coreapi.Service;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 @Stateless
 public class OrderService {
@@ -35,8 +37,15 @@ public class OrderService {
 //        log.infof("Starting LRA: %s when joining with baseUri: %s on enlistment gets recovery path: %s",
 //                lraUrlId, baseUri, recoveryPath);
 
-        log.info("testing call for API-gateway");
-        log.info(apiClient.test("my super test message"));
+        log.info("testing order call for API-gateway");
+        LRA lra = new LRABuilder()
+                .id("testing id")
+                .name("OrderLRA")
+                .withAction(new Action("testAction1", Service.SHIPMENT))
+                .withAction(new Action("testAction2", Service.INVOICE))
+                .build();
+
+        log.info(apiClient.processLRA(lra));
 
         Order order = new Order(productInfo);
 //        entityManager.persist(order);
