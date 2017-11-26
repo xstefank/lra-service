@@ -10,7 +10,4 @@ public interface ApiClient {
     @Headers("Content-Type: application/json")
     String processLRA(LRA lra);
 
-//    @RequestLine("GET /api/lra")
-//    String get();
-
 }
