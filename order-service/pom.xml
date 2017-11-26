@@ -25,6 +25,7 @@
         <deltaspike.version>1.6.1</deltaspike.version>
 
         <version.narayana>5.7.1.Final</version.narayana>
+        <version.resteasy.client>3.0.14.Final</version.resteasy.client>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
@@ -202,15 +203,19 @@
         <!-- Narayana -->
         <dependency>
             <groupId>org.jboss.narayana.rts</groupId>
-            <artifactId>lra-filters</artifactId>
+            <artifactId>lra-client</artifactId>
             <version>${version.narayana}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-cdi</artifactId>
-            <version>3.0.19.Final</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.resteasy</groupId>-->
+            <!--<artifactId>resteasy-client</artifactId>-->
+            <!--<version>${version.resteasy.client}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.resteasy</groupId>-->
+            <!--<artifactId>resteasy-jaxrs</artifactId>-->
+            <!--<version>3.0.14.Final</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 

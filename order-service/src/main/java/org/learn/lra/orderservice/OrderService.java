@@ -1,6 +1,6 @@
 package org.learn.lra.orderservice;
 
-import io.narayana.lra.client.LRAClient;
+import io.narayana.lra.client.LRAClientAPI;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.LRA;
@@ -24,13 +24,17 @@ public class OrderService {
     private EntityManager entityManager;
 
     @Inject
-    private LRAClient lraClient;
+    @CurrentLRAClient
+    private LRAClientAPI lraClient;
 
     @Inject
     private ApiClient apiClient;
 
     public Order createOrder(ProductInfo productInfo, String baseUri) {
         log.info("creating order...");
+        log.info("baseUri = " + baseUri);
+
+        log.info("lra client =" + lraClient + ", " + lraClient.getCurrent());
 
         String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
         URL lraUrlId = lraClient.startLRA(null, OrderService.class.getName() + "#"

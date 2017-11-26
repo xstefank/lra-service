@@ -9,9 +9,10 @@ import com.uber.jaeger.senders.Sender;
 import com.uber.jaeger.senders.UdpSender;
 import feign.httpclient.ApacheHttpClient;
 import feign.hystrix.HystrixFeign;
-import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.opentracing.TracingClient;
+import io.narayana.lra.client.LRAClient;
+import io.narayana.lra.client.LRAClientAPI;
 import io.opentracing.NoopTracerFactory;
 import io.opentracing.Tracer;
 import io.opentracing.contrib.web.servlet.filter.TracingFilter;
@@ -27,6 +28,7 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.net.URISyntaxException;
 import java.util.EnumSet;
 
 public class BeanConfiguration {
@@ -77,6 +79,29 @@ public class BeanConfiguration {
 
     }
 
+    @Produces
+    @CurrentLRAClient
+    public LRAClientAPI lraClient() {
+        try {
+            int port = 8080;
+            Integer portSys = Integer.getInteger(LRAClient.CORRDINATOR_PORT_PROP);
+            if(portSys != null) {
+                port = portSys;
+            }
+
+            String host = "lra-coordinator";
+            String hostSys = System.getProperty(LRAClient.CORRDINATOR_HOST_PROP);
+            if(hostSys != null) {
+                host = hostSys;
+            }
+
+            log.info(">>> LRA coordinator to connect is at " + host + ":" + port);
+            return new LRAClient(host, port);
+        } catch (URISyntaxException urise) {
+            throw new IllegalStateException("Can't initalize a new LRA client", urise);
+        }
+    }
+
     @WebListener
     public static class TracingFilterRegistration implements ServletContextListener {
         @Inject
@@ -93,6 +118,5 @@ public class BeanConfiguration {
         @Override
         public void contextDestroyed(ServletContextEvent sce) {}
     }
-
 
 }
