@@ -32,9 +32,6 @@ public class OrderService {
 
     public Order createOrder(ProductInfo productInfo, String baseUri) {
         log.info("creating order...");
-        log.info("baseUri = " + baseUri);
-
-        log.info("lra client =" + lraClient + ", " + lraClient.getCurrent());
 
         String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
         URL lraUrlId = lraClient.startLRA(null, OrderService.class.getName() + "#"
