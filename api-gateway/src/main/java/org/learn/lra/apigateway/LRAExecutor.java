@@ -4,6 +4,8 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.LRA;
+import org.learn.lra.coreapi.LRAResult;
+import org.learn.lra.coreapi.Result;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,13 +21,13 @@ public class LRAExecutor {
     @ConfigProperty(name = "lra.order.url", defaultValue = "order-service")
     private String orderUrl;
 
-    public String processLRA(LRA lra) {
+    public LRAResult processLRA(LRA lra) {
 
         log.infof("Processing LRA %s", lra);
 
         lra.getActions().forEach(this::executeAction);
 
-        return String.format("LRA %s processed", lra);
+        return new LRAResult(lra, Result.COMPLETED);
 
     }
 

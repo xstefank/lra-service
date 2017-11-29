@@ -4,6 +4,7 @@ package org.learn.lra.apigateway.rest;
 import org.jboss.logging.Logger;
 import org.learn.lra.apigateway.LRAExecutor;
 import org.learn.lra.coreapi.LRA;
+import org.learn.lra.coreapi.LRAResult;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -23,8 +24,8 @@ public class LRAEndpoint {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public String lraRequest(LRA lra) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public LRAResult lraRequest(LRA lra) {
         log.info("received lra - " + lra);
         return lraExecutor.processLRA(lra);
     }
