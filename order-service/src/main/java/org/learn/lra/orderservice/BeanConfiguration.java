@@ -18,6 +18,7 @@ import io.opentracing.NoopTracerFactory;
 import io.opentracing.Tracer;
 import io.opentracing.contrib.web.servlet.filter.TracingFilter;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.eclipse.microprofile.config.Config;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRA;
 import org.learn.lra.coreapi.LRAResult;
@@ -35,8 +36,14 @@ import java.util.EnumSet;
 
 public class BeanConfiguration {
 
+    public static final String APIGATEWAY_URL = "order.apigateway.url";
+    public static final String APIGATEWAY_PORT = "order.apigateway.port";
+
     private static final Logger log = Logger.getLogger(BeanConfiguration.class);
     private static final String SERVICE_NAME = "order";
+
+    @Inject
+    private Config config;
 
     @Produces
     @Singleton
@@ -65,9 +72,8 @@ public class BeanConfiguration {
     @Singleton
     private ApiClient apiClient(Tracer tracer) {
 
-        //TODO get host and port from properties
-        String host = "api-gateway";
-        String port = "8080";
+        String host = config.getValue(APIGATEWAY_URL, String.class);
+        String port = config.getValue(APIGATEWAY_PORT, String.class);
 
         log.infof("API gateway expected at %s:%s", host, port);
 
