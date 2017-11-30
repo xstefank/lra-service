@@ -12,6 +12,7 @@
     <modules>
         <module>service-model</module>
         <module>order-service</module>
+        <module>shipment-service</module>
         <module>api-gateway</module>
         <module>lra-coordinator</module>
     </modules>
