@@ -3,6 +3,7 @@ package org.learn.lra.orderservice;
 import io.narayana.lra.client.LRAClientAPI;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
+import org.learn.lra.coreapi.ActionType;
 import org.learn.lra.coreapi.LRA;
 import org.learn.lra.coreapi.LRABuilder;
 import org.learn.lra.coreapi.ProductInfo;
@@ -45,8 +46,8 @@ public class OrderService {
         LRA lra = new LRABuilder()
                 .id(lraUrlId.toString())
                 .name(ORDER_LRA)
-                .withAction(new Action("testAction1", Service.SHIPMENT))
-                .withAction(new Action("testAction2", Service.INVOICE))
+                .withAction(new Action("testAction1", ActionType.REQUEST, Service.SHIPMENT))
+                .withAction(new Action("testAction2", ActionType.REQUEST, Service.INVOICE))
                 .build();
 
         log.info(apiClient.processLRA(lra));

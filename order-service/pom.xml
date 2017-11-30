@@ -256,7 +256,7 @@
                             <all>
                                 <property>
                                     <name>app</name>
-                                    <value>order-service</value>
+                                    <value>${project.artifactId}</value>
                                 </property>
                                 <property>
                                     <name>hystrix.enabled</name>

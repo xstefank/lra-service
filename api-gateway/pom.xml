@@ -249,7 +249,7 @@
               <all>
                 <property>
                   <name>app</name>
-                  <value>api-gateway</value>
+                  <value>${project.artifactId}</value>
                 </property>
                 <property>
                   <name>hystrix.enabled</name>

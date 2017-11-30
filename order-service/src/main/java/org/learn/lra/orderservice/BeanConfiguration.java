@@ -33,6 +33,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.net.URISyntaxException;
 import java.util.EnumSet;
+import java.util.Optional;
 
 public class BeanConfiguration {
 
@@ -91,20 +92,13 @@ public class BeanConfiguration {
     @CurrentLRAClient
     public LRAClientAPI lraClient() {
         try {
-            int port = 8080;
-            Integer portSys = Integer.getInteger(LRAClient.CORRDINATOR_PORT_PROP);
-            if(portSys != null) {
-                port = portSys;
-            }
 
-            String host = "lra-coordinator";
-            String hostSys = System.getProperty(LRAClient.CORRDINATOR_HOST_PROP);
-            if(hostSys != null) {
-                host = hostSys;
-            }
+            Optional<String> host = config.getOptionalValue("lra.coordinator.host", String.class);
+            Optional<Integer> port = config.getOptionalValue("lra.coordinator.port", Integer.class);
 
-            log.info(">>> LRA coordinator to connect is at " + host + ":" + port);
-            return new LRAClient(host, port);
+            LRAClient lraClient = new LRAClient(host.orElse("lra-coordinator"), port.orElse(8080));
+            log.info(">>> LRA coordinator to connect is at " + lraClient.getUrl());
+            return lraClient;
         } catch (URISyntaxException urise) {
             throw new IllegalStateException("Can't initalize a new LRA client", urise);
         }

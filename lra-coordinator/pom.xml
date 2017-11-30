@@ -23,7 +23,7 @@
     </properties>
 
     <build>
-        <finalName>lra-coordinator</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
           <plugin>
             <inherited>false</inherited>
@@ -60,7 +60,7 @@
                             <all>
                                 <property>
                                     <name>app</name>
-                                    <value>lra-coordinator</value>
+                                    <value>${project.artifactId}</value>
                                 </property>
                                 <property>
                                     <name>hystrix.enabled</name>
