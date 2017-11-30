@@ -1,4 +1,4 @@
-package org.learn.lra.apigateway;
+package org.learn.lra.apigateway.core;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
@@ -33,6 +33,7 @@ public class LRAExecutor {
 
     private void executeAction(Action action) {
         log.infof("executing action - %s", action);
+
 
 
     }

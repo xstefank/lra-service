@@ -2,7 +2,7 @@ package org.learn.lra.apigateway.rest;
 
 
 import org.jboss.logging.Logger;
-import org.learn.lra.apigateway.LRAExecutor;
+import org.learn.lra.apigateway.core.LRAExecutor;
 import org.learn.lra.coreapi.LRA;
 import org.learn.lra.coreapi.LRAResult;
 

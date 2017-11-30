@@ -1,4 +1,4 @@
-package org.learn.lra.apigateway;
+package org.learn.lra.apigateway.core;
 
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;

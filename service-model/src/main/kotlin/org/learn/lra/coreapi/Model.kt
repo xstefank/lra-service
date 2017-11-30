@@ -4,10 +4,16 @@ enum class Service {
     ORDER,
     SHIPMENT,
     INVOICE,
-    NOT_AVAILABLE
 }
 
-data class Action(val name : String = "", val service: Service = Service.NOT_AVAILABLE)
+enum class ActionType {
+    REQUEST,
+    STATUS
+}
+
+data class Action(val name : String = "",
+                  val type: ActionType? = null,
+                  val service: Service? = null)
 
 enum class Result {
     COMPLETED,
