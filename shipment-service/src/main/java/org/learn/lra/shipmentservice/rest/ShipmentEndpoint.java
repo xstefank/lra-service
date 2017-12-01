@@ -2,6 +2,7 @@ package org.learn.lra.shipmentservice.rest;
 
 import io.narayana.lra.annotation.LRA;
 import org.learn.lra.Util;
+import org.learn.lra.coreapi.LRAOperationAPI;
 import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ShipmentInfo;
 
@@ -16,10 +17,8 @@ import javax.ws.rs.core.MediaType;
 @Path("/")
 public class ShipmentEndpoint {
 
-    private static final String REQUEST = "/request";
-
     @POST
-    @Path(REQUEST)
+    @Path(LRAOperationAPI.REQUEST)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @LRA(value = LRA.Type.REQUIRED)
