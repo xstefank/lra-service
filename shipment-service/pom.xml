@@ -1,144 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.learn.lra</groupId>
-  <artifactId>shipment-service</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
-
-  <parent>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>org.learn.lra</groupId>
-    <artifactId>lra-service</artifactId>
+    <artifactId>shipment-service</artifactId>
     <version>1.0-SNAPSHOT</version>
-  </parent>
+    <packaging>war</packaging>
 
-  <properties>
-    <version.wildfly.swarm>2017.8.1</version.wildfly.swarm>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <failOnMissingWebXml>false</failOnMissingWebXml>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <h2.version>1.4.196</h2.version>
+    <parent>
+        <groupId>org.learn.lra</groupId>
+        <artifactId>lra-service</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-    <deltaspike.version>1.6.1</deltaspike.version>
+    <properties>
+        <version.wildfly.swarm>2017.8.1</version.wildfly.swarm>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <h2.version>1.4.196</h2.version>
 
-    <version.narayana>5.7.1.Final</version.narayana>
-    <version.resteasy.client>3.0.14.Final</version.resteasy.client>
+        <deltaspike.version>1.6.1</deltaspike.version>
 
-    <!-- other plugin versions -->
-    <version.compiler.plugin>3.1</version.compiler.plugin>
-    <version.surefire.plugin>2.16</version.surefire.plugin>
-    <version.war.plugin>2.5</version.war.plugin>
+        <version.narayana>5.7.1.Final</version.narayana>
+        <version.resteasy.client>3.0.14.Final</version.resteasy.client>
 
-    <!-- maven-compiler-plugin -->
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <openfeign.version>9.4.0</openfeign.version>
-    <openfeign.opentracing.version>0.0.3</openfeign.opentracing.version>
-    <opentracing.version>0.22.0</opentracing.version>
-    <opentracing.web.servlet.filter.version>0.0.8</opentracing.web.servlet.filter.version>
-    <hystrix.version>1.5.1</hystrix.version>
-    <jaeger.version>0.19.0</jaeger.version>
-    <swagger.version>1.5.8</swagger.version>
-  </properties>
+        <!-- other plugin versions -->
+        <version.compiler.plugin>3.1</version.compiler.plugin>
+        <version.surefire.plugin>2.16</version.surefire.plugin>
+        <version.war.plugin>2.5</version.war.plugin>
 
-  <dependencyManagement>
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <openfeign.version>9.4.0</openfeign.version>
+        <openfeign.opentracing.version>0.0.3</openfeign.opentracing.version>
+        <opentracing.version>0.22.0</opentracing.version>
+        <opentracing.web.servlet.filter.version>0.0.8</opentracing.web.servlet.filter.version>
+        <hystrix.version>1.5.1</hystrix.version>
+        <jaeger.version>0.19.0</jaeger.version>
+        <swagger.version>1.5.8</swagger.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>bom-all</artifactId>
+                <version>${version.wildfly.swarm}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
-      <dependency>
-        <groupId>org.wildfly.swarm</groupId>
-        <artifactId>bom-all</artifactId>
-        <version>${version.wildfly.swarm}</version>
-        <scope>import</scope>
-        <type>pom</type>
-      </dependency>
+        <!-- Java EE 7 dependency -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- WildFly Swarm Fractions -->
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>cdi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>jaxrs</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.learn.lra</groupId>
+            <artifactId>service-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.narayana.rts</groupId>
+            <artifactId>lra-filters</artifactId>
+            <version>${version.narayana}</version>
+        </dependency>
     </dependencies>
-  </dependencyManagement>
 
-  <build>
-    <finalName>${project.artifactId}</finalName>
-    <plugins>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.wildfly.swarm</groupId>
-        <artifactId>wildfly-swarm-plugin</artifactId>
-        <version>${version.wildfly.swarm}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>package</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>fabric8-maven-plugin</artifactId>
-        <version>3.5.30</version>
-        <configuration>
-          <resources>
-            <labels>
-              <all>
-                <property>
-                  <name>app</name>
-                  <value>${project.artifactId}</value>
-                </property>
-                <property>
-                  <name>hystrix.enabled</name>
-                  <value>true</value>
-                </property>
-              </all>
-            </labels>
-          </resources>
-          <enricher>
-            <config>
-              <wildfly-swarm-health-check>
-                <port>8080</port>
-                <scheme>HTTP</scheme>
-                <path>api/health</path>
-              </wildfly-swarm-health-check>
-            </config>
-          </enricher>
-        </configuration>
-        <executions>
-          <execution>
-            <id>fmp</id>
-            <goals>
-              <goal>resource</goal>
-              <goal>helm</goal>
-              <goal>build</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>wildfly-swarm-plugin</artifactId>
+                <version>${version.wildfly.swarm}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <version>3.5.30</version>
+                <configuration>
+                    <resources>
+                        <labels>
+                            <all>
+                                <property>
+                                    <name>app</name>
+                                    <value>${project.artifactId}</value>
+                                </property>
+                                <property>
+                                    <name>hystrix.enabled</name>
+                                    <value>true</value>
+                                </property>
+                            </all>
+                        </labels>
+                    </resources>
+                    <enricher>
+                        <config>
+                            <wildfly-swarm-health-check>
+                                <port>8080</port>
+                                <scheme>HTTP</scheme>
+                                <path>api/health</path>
+                            </wildfly-swarm-health-check>
+                        </config>
+                    </enricher>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>fmp</id>
+                        <goals>
+                            <goal>resource</goal>
+                            <goal>helm</goal>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 
-  </build>
+    </build>
 
-  <dependencies>
-    <!-- Java EE 7 dependency -->
-    <dependency>
-      <groupId>javax</groupId>
-      <artifactId>javaee-api</artifactId>
-      <version>7.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- WildFly Swarm Fractions -->
-    <dependency>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>logging</artifactId>
-    </dependency><dependency>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>cdi</artifactId>
-    </dependency><dependency>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>jaxrs</artifactId>
-    </dependency>
-  </dependencies>
 </project>
