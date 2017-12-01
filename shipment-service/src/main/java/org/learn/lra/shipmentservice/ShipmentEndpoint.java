@@ -1,4 +1,4 @@
-package org.learn.lra.shipmentservice.rest;
+package org.learn.lra.shipmentservice;
 
 import io.narayana.lra.annotation.LRA;
 import org.learn.lra.Util;
@@ -6,6 +6,7 @@ import org.learn.lra.coreapi.LRAOperationAPI;
 import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ShipmentInfo;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -17,6 +18,9 @@ import javax.ws.rs.core.MediaType;
 @Path("/")
 public class ShipmentEndpoint {
 
+    @EJB
+    private ShipmentService shipmentService;
+
     @POST
     @Path(LRAOperationAPI.REQUEST)
     @Produces(MediaType.APPLICATION_JSON)
@@ -25,13 +29,9 @@ public class ShipmentEndpoint {
     public ShipmentInfo requestShipment(OrderInfo orderInfo) {
         String id = Util.generateId();
 
-        int price = computeShipment(orderInfo);
+        int price = shipmentService.computeShipment(orderInfo);
 
         return new ShipmentInfo(id, price);
     }
 
-    private int computeShipment(OrderInfo orderInfo) {
-        //return testing stub
-        return 42;
-    }
 }
