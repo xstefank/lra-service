@@ -7,7 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class ActionClient {
 
     @EJB
-    private ServiceLocator serviceLocator;
+    private ServicesLocator servicesLocator;
 
     //TODO Client calls
 

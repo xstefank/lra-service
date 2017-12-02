@@ -6,9 +6,9 @@ enum class Service {
     INVOICE,
 }
 
-enum class ActionType {
-    REQUEST,
-    STATUS
+enum class ActionType(val path: String) {
+    REQUEST("request"),
+    STATUS("status")
 }
 
 data class Action(val name : String = "",

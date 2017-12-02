@@ -9,6 +9,11 @@ import org.learn.lra.coreapi.Result;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +27,9 @@ public class LRAExecutor {
     @Inject
     @CurrentLRAClient
     private LRAClientAPI lraClient;
+
+    @Inject
+    private ServicesLocator servicesLocator;
 
     public LRAResult processLRA(LRA lra, String baseUri) {
 
@@ -56,6 +64,18 @@ public class LRAExecutor {
 
     private Result executeAction(Action action) {
         log.infof("executing action - %s", action);
+
+        Client client = ClientBuilder.newClient();
+        URI build = UriBuilder
+                .fromUri(servicesLocator.getServiceUri(action.getService()))
+                .path(action.getType().getPath())
+                .build();
+        log.info("lra uri - " + build);
+        WebTarget target = client.target(build);
+
+//        Response response = target.request().get();
+        //TODO get value
+//        response.close();
 
         return Result.COMPLETED;
     }
