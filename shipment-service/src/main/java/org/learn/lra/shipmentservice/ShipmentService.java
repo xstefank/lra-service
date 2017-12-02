@@ -6,6 +6,8 @@ import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ShipmentInfo;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 @Stateless
 public class ShipmentService {
@@ -19,13 +21,23 @@ public class ShipmentService {
         return new ShipmentInfo(id , 42);
     }
 
-    public void persistShipment(String lraId) {
+    public void completeShipment(String lraId) {
         log.info("persisting shipment for LRA " + lraId);
-        //TODO actual persist
+
     }
 
     public void compensateShipment(String lraId) {
         log.info("ocmpensating shipment for LRA " + lraId);
         //TODO
+    }
+
+    @Inject
+    private EntityManager entityManager;
+
+
+    public void testPersist() {
+        log.info("persisting...");
+        entityManager.persist(new Shipment("testLRAId", 42));
+        log.info("persisted....");
     }
 }

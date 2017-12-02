@@ -5,14 +5,16 @@ import io.narayana.lra.annotation.Complete;
 import io.narayana.lra.annotation.LRA;
 import io.narayana.lra.client.LRAClient;
 import org.jboss.logging.Logger;
-import org.learn.lra.Util;
 import org.learn.lra.coreapi.LRAOperationAPI;
 import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ShipmentInfo;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -46,7 +48,7 @@ public class ShipmentEndpoint {
     public Response completeWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
         String lraId = LRAClient.getLRAId(lraUri);
 
-        shipmentService.persistShipment(lraId);
+        shipmentService.completeShipment(lraId);
         return Response.ok().build();
     }
 
@@ -59,6 +61,19 @@ public class ShipmentEndpoint {
 
         shipmentService.compensateShipment(lraId);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("/test")
+    public void testPersist() {
+        shipmentService.testPersist();
+    }
+
+    @GET
+    @Path("/health")
+    @Produces("text/plain")
+    public String health() {
+        return "I'm ok";
     }
 
 }
