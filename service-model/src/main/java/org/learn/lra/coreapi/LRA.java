@@ -9,9 +9,8 @@ import java.util.List;
 @JsonDeserialize(as = LRAImpl.class)
 public interface LRA {
 
-    String getId();
-
     String getName();
 
     List<Action> getActions();
+
 }

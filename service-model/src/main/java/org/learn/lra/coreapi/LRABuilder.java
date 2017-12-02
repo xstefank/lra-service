@@ -5,14 +5,8 @@ import java.util.List;
 
 public class LRABuilder {
 
-    private String id;
     private String name;
     private List<Action> actions = new ArrayList<>();
-
-    public LRABuilder id(String id) {
-        this.id = id;
-        return this;
-    }
 
     public LRABuilder name(String name) {
         this.name = name;
@@ -25,6 +19,6 @@ public class LRABuilder {
     }
 
     public LRA build() {
-        return new LRAImpl(id, name, actions);
+        return new LRAImpl(name, actions);
     }
 }

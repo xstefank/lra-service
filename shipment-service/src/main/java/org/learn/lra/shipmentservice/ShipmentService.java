@@ -22,12 +22,10 @@ public class ShipmentService {
     }
 
     public void completeShipment(String lraId) {
-        log.info("persisting shipment for LRA " + lraId);
-
+        //TODO
     }
 
     public void compensateShipment(String lraId) {
-        log.info("ocmpensating shipment for LRA " + lraId);
         //TODO
     }
 

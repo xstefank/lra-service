@@ -20,5 +20,8 @@ enum class Result {
     NEED_COMPENSATION
 }
 
-data class LRAResult(val lra: LRA? = null, val result: Result? = null)
+data class LRAResult(val lra: LRA? = null, val result: Result? = null) {
+
+    fun isSuccess() = result == Result.COMPLETED
+}
 

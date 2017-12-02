@@ -202,15 +202,10 @@
     <!-- Narayana -->
     <dependency>
       <groupId>org.jboss.narayana.rts</groupId>
-      <artifactId>lra-filters</artifactId>
+      <artifactId>lra-client</artifactId>
       <version>${version.narayana}</version>
     </dependency>
-    <dependency>
-      <groupId>org.jboss.resteasy</groupId>
-      <artifactId>resteasy-cdi</artifactId>
-      <version>3.0.19.Final</version>
-      <scope>provided</scope>
-    </dependency>
+
 
   </dependencies>
 
@@ -228,9 +223,6 @@
         <groupId>org.wildfly.swarm</groupId>
         <artifactId>wildfly-swarm-plugin</artifactId>
         <version>${version.wildfly.swarm}</version>
-        <!--<configuration>-->
-        <!--<mainClass>org.learn.lra.orderservice.Main</mainClass>-->
-        <!--</configuration>-->
         <executions>
           <execution>
             <goals>

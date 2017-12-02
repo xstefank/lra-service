@@ -47,6 +47,7 @@ public class ShipmentEndpoint {
     @Complete
     public Response completeWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
         String lraId = LRAClient.getLRAId(lraUri);
+        log.info("persisting shipment for LRA " + lraId);
 
         shipmentService.completeShipment(lraId);
         return Response.ok().build();
@@ -58,6 +59,8 @@ public class ShipmentEndpoint {
     @Compensate
     public Response compensateWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
         String lraId = LRAClient.getLRAId(lraUri);
+        log.info("compensating shipment for LRA " + lraId);
+
 
         shipmentService.compensateShipment(lraId);
         return Response.ok().build();
