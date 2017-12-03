@@ -5,12 +5,12 @@ import lombok.ToString;
 
 @ToString
 @NoArgsConstructor
-public abstract class AbstractLRAInfo<T> implements LRAInfo<T> {
+public class LRAInfoImpl<T> implements LRAInfo<T> {
 
     private T data;
     private Class<T> type;
 
-    public AbstractLRAInfo(T data) {
+    public LRAInfoImpl(T data) {
         this.data = data;
         this.type = (Class<T>) data.getClass();
     }

@@ -1,9 +1,9 @@
 package org.learn.lra.orderservice.model;
 
-import org.learn.lra.coreapi.AbstractLRAInfo;
+import org.learn.lra.coreapi.LRAInfoImpl;
 import org.learn.lra.coreapi.ProductInfo;
 
-public class ProductLRAInfo extends AbstractLRAInfo<ProductInfo> {
+public class ProductLRAInfo extends LRAInfoImpl<ProductInfo> {
 
     private ProductInfo productInfo;
 

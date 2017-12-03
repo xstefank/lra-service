@@ -71,12 +71,16 @@ public class LRAExecutor {
         Client client = ClientBuilder.newClient();
         URI build = UriBuilder
                 .fromUri(servicesLocator.getServiceUri(action.getService()))
+                .path("api")
                 .path(action.getType().getPath())
                 .build();
+        log.info(build);
         WebTarget target = client.target(build);
 
         //TODO make it post some info about LRA?
-        Response response = target.request().post(Entity.json(lraInfo));
+//        Response response = target.request().post(Entity.json(lraInfo));
+        Response response = target.request().get();
+        log.info(response.readEntity(String.class));
         //TODO get value
         response.close();
 

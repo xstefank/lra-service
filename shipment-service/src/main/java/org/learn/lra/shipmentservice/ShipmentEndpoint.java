@@ -46,6 +46,16 @@ public class ShipmentEndpoint {
         return new ShipmentInfo("sadf", 42);
     }
 
+    @GET
+    @Path(LRAOperationAPI.REQUEST)
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String requestShipmentTest() {
+        log.info("testing get - ");
+
+        return "testing get success";
+    }
+
     @PUT
     @Path(LRAOperationAPI.COMPLETE)
     @Produces(MediaType.APPLICATION_JSON)
