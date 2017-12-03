@@ -7,6 +7,8 @@ public class LRABuilder {
 
     private String name;
     private List<Action> actions = new ArrayList<>();
+    private LRAInfo<?> lraInfo;
+
 
     public LRABuilder name(String name) {
         this.name = name;
@@ -18,7 +20,12 @@ public class LRABuilder {
         return this;
     }
 
+    public LRABuilder lraInfo(LRAInfo<?> lraInfo) {
+        this.lraInfo = lraInfo;
+        return this;
+    }
+
     public LRA build() {
-        return new LRAImpl(name, actions);
+        return new LRAImpl(name, actions, lraInfo);
     }
 }

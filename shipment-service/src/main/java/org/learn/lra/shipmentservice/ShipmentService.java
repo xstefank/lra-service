@@ -3,6 +3,7 @@ package org.learn.lra.shipmentservice;
 import org.jboss.logging.Logger;
 import org.learn.lra.Util;
 import org.learn.lra.coreapi.OrderInfo;
+import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.ShipmentInfo;
 
 import javax.ejb.Stateless;
@@ -14,7 +15,7 @@ public class ShipmentService {
 
     private static final Logger log = Logger.getLogger(ShipmentService.class);
 
-    public ShipmentInfo computeShipment(OrderInfo orderInfo) {
+    public ShipmentInfo computeShipment(ProductInfo productInfo) {
         //return testing stub
         String id = Util.generateId();
 

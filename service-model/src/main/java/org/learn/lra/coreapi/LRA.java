@@ -13,4 +13,6 @@ public interface LRA {
 
     List<Action> getActions();
 
+    LRAInfo<?> getInfo();
+
 }

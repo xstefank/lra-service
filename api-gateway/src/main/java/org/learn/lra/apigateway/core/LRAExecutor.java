@@ -4,6 +4,7 @@ import io.narayana.lra.client.LRAClientAPI;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.LRA;
+import org.learn.lra.coreapi.LRAInfo;
 import org.learn.lra.coreapi.LRAResult;
 import org.learn.lra.coreapi.Result;
 
@@ -11,7 +12,9 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.net.URL;
@@ -38,7 +41,7 @@ public class LRAExecutor {
         URL lraUrlId = startLRA(baseUri);
 
         boolean needCompensation = lra.getActions().stream()
-                .map(this::executeAction)
+                .map(a -> executeAction(a, lra.getInfo()))
                 .anyMatch(x -> x.equals(Result.NEED_COMPENSATION));
 
         if (needCompensation) {
@@ -62,7 +65,7 @@ public class LRAExecutor {
         return lraUrlId;
     }
 
-    private Result executeAction(Action action) {
+    private Result executeAction(Action action, LRAInfo<?> lraInfo) {
         log.infof("executing action - %s", action);
 
         Client client = ClientBuilder.newClient();
@@ -70,12 +73,12 @@ public class LRAExecutor {
                 .fromUri(servicesLocator.getServiceUri(action.getService()))
                 .path(action.getType().getPath())
                 .build();
-        log.info("lra uri - " + build);
         WebTarget target = client.target(build);
 
-//        Response response = target.request().get();
+        //TODO make it post some info about LRA?
+        Response response = target.request().post(Entity.json(lraInfo));
         //TODO get value
-//        response.close();
+        response.close();
 
         return Result.COMPLETED;
     }
