@@ -21,16 +21,20 @@ public class Shipment {
     @NotNull
     private String orderId;
 
+    @NotNull
+    private String lraId;
+
     private int price;
 
     private boolean comleted;
 
-    public Shipment(String orderId, int price) {
-        this(orderId, price, false);
+    public Shipment(String orderId, String lraId, int price) {
+        this(orderId, lraId, price, false);
     }
 
-    public Shipment(String orderId, int price, boolean comleted) {
+    public Shipment(String orderId, String lraId, int price, boolean comleted) {
         this.orderId = orderId;
+        this.lraId = lraId;
         this.price = price;
         this.comleted = comleted;
     }
@@ -43,11 +47,19 @@ public class Shipment {
         return orderId;
     }
 
+    public String getLraId() {
+        return lraId;
+    }
+
     public int getPrice() {
         return price;
     }
 
     public boolean isComleted() {
         return comleted;
+    }
+
+    public void setComleted(boolean comleted) {
+        this.comleted = comleted;
     }
 }

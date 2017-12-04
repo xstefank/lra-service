@@ -41,7 +41,8 @@ public class OrderService {
                 .name(ORDER_LRA)
                 .lraInfo(new OrderInfo(order.getId(), productInfo))
                 .withAction(new Action("testAction1", ActionType.REQUEST, Service.SHIPMENT))
-                .withAction(new Action("testAction2", ActionType.REQUEST, Service.INVOICE))
+                //TODO implement invoice service
+//                .withAction(new Action("testAction2", ActionType.REQUEST, Service.INVOICE))
                 .build();
 
         LRAResult lraResult = apiClient.processLRA(lra);

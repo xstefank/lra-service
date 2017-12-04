@@ -37,18 +37,11 @@ public class ShipmentEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @LRA(value = LRA.Type.REQUIRED)
     public String requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
-        shipmentService.computeShipment(orderInfo);
+        String lraId = LRAClient.getLRAId(lraUri);
+        log.info("processing request for LRA " + lraId);
+
+        shipmentService.computeShipment(lraId, orderInfo);
         return String.format("Shipment for order %s processed", orderInfo.getOrderId());
-    }
-
-    @GET
-    @Path(LRAOperationAPI.REQUEST)
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String requestShipmentTest() {
-        log.info("testing get - ");
-
-        return "testing get success";
     }
 
     @PUT
@@ -57,7 +50,7 @@ public class ShipmentEndpoint {
     @Complete
     public Response completeWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
         String lraId = LRAClient.getLRAId(lraUri);
-        log.info("persisting shipment for LRA " + lraId);
+        log.info("completing shipment for LRA " + lraId);
 
         shipmentService.completeShipment(lraId);
         return Response.ok().build();
@@ -74,12 +67,6 @@ public class ShipmentEndpoint {
 
         shipmentService.compensateShipment(lraId);
         return Response.ok().build();
-    }
-
-    @GET
-    @Path("/test")
-    public void testPersist() {
-        shipmentService.testPersist();
     }
 
     @GET

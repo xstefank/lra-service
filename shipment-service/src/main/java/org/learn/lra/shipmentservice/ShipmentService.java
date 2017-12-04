@@ -15,10 +15,10 @@ public class ShipmentService {
     @Inject
     private EntityManager entityManager;
 
-    public void computeShipment(OrderInfo orderInfo) {
+    public void computeShipment(String lraId, OrderInfo orderInfo) {
         int shipmentPrice = calculateShipmentForOrder(orderInfo);
 
-        Shipment shipment = new Shipment(orderInfo.getOrderId(), shipmentPrice);
+        Shipment shipment = new Shipment(orderInfo.getOrderId(), lraId, shipmentPrice);
         entityManager.persist(shipment);
         log.infof("Shipment for order %s persisted at %s", orderInfo.getOrderId(), shipment.getId());
     }
@@ -29,17 +29,18 @@ public class ShipmentService {
     }
 
     public void completeShipment(String lraId) {
-        //TODO
+        Shipment shipment = entityManager.createQuery("FROM Shipment WHERE lraId=?", Shipment.class)
+                .setParameter(1, lraId).getSingleResult();
+
+        shipment.setComleted(true);
+        entityManager.merge(shipment);
+
+        log.infof("Shipment %s fully completed", shipment.getId());
+
     }
 
     public void compensateShipment(String lraId) {
         //TODO
     }
 
-
-    public void testPersist() {
-        log.info("persisting...");
-        entityManager.persist(new Shipment("testLRAId", 42));
-        log.info("persisted....");
-    }
 }
