@@ -12,9 +12,9 @@ public class LRAImpl implements LRA {
 
     private String name;
     private List<Action> actions;
-    private LRAInfo<?> info;
+    private Object info;
 
-    public LRAImpl(String name, List<Action> actions, LRAInfo<?> info) {
+    public LRAImpl(String name, List<Action> actions, Object info) {
         this.name = name;
         this.actions = actions;
         this.info = info;
@@ -31,7 +31,7 @@ public class LRAImpl implements LRA {
     }
 
     @Override
-    public LRAInfo<?> getInfo() {
+    public Object getInfo() {
         return info;
     }
 

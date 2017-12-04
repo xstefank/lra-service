@@ -9,7 +9,6 @@ import org.learn.lra.coreapi.LRABuilder;
 import org.learn.lra.coreapi.LRAResult;
 import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.Service;
-import org.learn.lra.orderservice.model.ProductLRAInfo;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -37,7 +36,7 @@ public class OrderService {
 
         LRA lra = new LRABuilder()
                 .name(ORDER_LRA)
-                .lraInfo(new ProductLRAInfo(productInfo))
+                .lraInfo(productInfo)
                 .withAction(new Action("testAction1", ActionType.REQUEST, Service.SHIPMENT))
                 .withAction(new Action("testAction2", ActionType.REQUEST, Service.INVOICE))
                 .build();

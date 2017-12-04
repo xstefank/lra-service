@@ -1,10 +1,10 @@
 package org.learn.lra.apigateway.core;
 
+import io.narayana.lra.client.LRAClient;
 import io.narayana.lra.client.LRAClientAPI;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.LRA;
-import org.learn.lra.coreapi.LRAInfo;
 import org.learn.lra.coreapi.LRAResult;
 import org.learn.lra.coreapi.Result;
 
@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Stateless
 public class LRAExecutor {
 
+    private static final String API_PREFIX = "api";
     private static final Logger log = Logger.getLogger(LRAExecutor.class);
 
 //    private ExecutorService executorService = Executors.newFixedThreadPool(5);
@@ -39,9 +40,10 @@ public class LRAExecutor {
         log.infof("Processing LRA %s", lra);
 
         URL lraUrlId = startLRA(baseUri);
+        Object info = lra.getInfo();
 
         boolean needCompensation = lra.getActions().stream()
-                .map(a -> executeAction(a, lra.getInfo()))
+                .map(a -> executeAction(a, info, lraUrlId.toString()))
                 .anyMatch(x -> x.equals(Result.NEED_COMPENSATION));
 
         if (needCompensation) {
@@ -65,22 +67,20 @@ public class LRAExecutor {
         return lraUrlId;
     }
 
-    private Result executeAction(Action action, LRAInfo<?> lraInfo) {
+    private Result executeAction(Action action, Object lraInfo, String lraUri) {
         log.infof("executing action - %s", action);
 
         Client client = ClientBuilder.newClient();
         URI build = UriBuilder
                 .fromUri(servicesLocator.getServiceUri(action.getService()))
-                .path("api")
+                .path(API_PREFIX)
                 .path(action.getType().getPath())
                 .build();
         log.info(build);
         WebTarget target = client.target(build);
 
-        //TODO make it post some info about LRA?
-//        Response response = target.request().post(Entity.json(lraInfo));
-        Response response = target.request().get();
-        log.info(response.readEntity(String.class));
+        Response response = target.request().header(LRAClient.LRA_HTTP_HEADER, lraUri).post(Entity.json(lraInfo));
+        log.info("Result of action - " + response.readEntity(String.class));
         //TODO get value
         response.close();
 

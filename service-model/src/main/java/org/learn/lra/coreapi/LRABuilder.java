@@ -7,7 +7,7 @@ public class LRABuilder {
 
     private String name;
     private List<Action> actions = new ArrayList<>();
-    private LRAInfo<?> lraInfo;
+    private Object lraInfo;
 
 
     public LRABuilder name(String name) {
@@ -20,7 +20,7 @@ public class LRABuilder {
         return this;
     }
 
-    public LRABuilder lraInfo(LRAInfo<?> lraInfo) {
+    public LRABuilder lraInfo(Object lraInfo) {
         this.lraInfo = lraInfo;
         return this;
     }

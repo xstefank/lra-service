@@ -5,16 +5,11 @@ import io.narayana.lra.annotation.Complete;
 import io.narayana.lra.annotation.LRA;
 import io.narayana.lra.client.LRAClient;
 import org.jboss.logging.Logger;
-import org.learn.lra.coreapi.LRAInfo;
 import org.learn.lra.coreapi.LRAOperationAPI;
-import org.learn.lra.coreapi.OrderInfo;
-import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.ShipmentInfo;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -39,7 +34,7 @@ public class ShipmentEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @LRA(value = LRA.Type.REQUIRED)
-    public ShipmentInfo requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, LRAInfo<?> lraInfo) {
+    public ShipmentInfo requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, Object lraInfo) {
         log.info("received info - " + lraInfo);
 
 //        return shipmentService.computeShipment(productInfo);
