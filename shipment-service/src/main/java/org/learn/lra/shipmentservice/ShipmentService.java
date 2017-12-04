@@ -1,10 +1,7 @@
 package org.learn.lra.shipmentservice;
 
 import org.jboss.logging.Logger;
-import org.learn.lra.Util;
 import org.learn.lra.coreapi.OrderInfo;
-import org.learn.lra.coreapi.ProductInfo;
-import org.learn.lra.coreapi.ShipmentInfo;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -15,11 +12,20 @@ public class ShipmentService {
 
     private static final Logger log = Logger.getLogger(ShipmentService.class);
 
-    public ShipmentInfo computeShipment(ProductInfo productInfo) {
-        //return testing stub
-        String id = Util.generateId();
+    @Inject
+    private EntityManager entityManager;
 
-        return new ShipmentInfo(id , 42);
+    public void computeShipment(OrderInfo orderInfo) {
+        int shipmentPrice = calculateShipmentForOrder(orderInfo);
+
+        Shipment shipment = new Shipment(orderInfo.getOrderId(), shipmentPrice);
+        entityManager.persist(shipment);
+        log.infof("Shipment for order %s persisted at %s", orderInfo.getOrderId(), shipment.getId());
+    }
+
+    private int calculateShipmentForOrder(OrderInfo orderInfo) {
+        //return stub for now
+        return 42;
     }
 
     public void completeShipment(String lraId) {
@@ -29,9 +35,6 @@ public class ShipmentService {
     public void compensateShipment(String lraId) {
         //TODO
     }
-
-    @Inject
-    private EntityManager entityManager;
 
 
     public void testPersist() {

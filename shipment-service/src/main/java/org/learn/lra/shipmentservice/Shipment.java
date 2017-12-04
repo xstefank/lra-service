@@ -19,18 +19,18 @@ public class Shipment {
     private String id;
 
     @NotNull
-    private String lraId;
+    private String orderId;
 
     private int price;
 
     private boolean comleted;
 
-    public Shipment(String lraId, int price) {
-        this(lraId, price, false);
+    public Shipment(String orderId, int price) {
+        this(orderId, price, false);
     }
 
-    public Shipment(String lraId, int price, boolean comleted) {
-        this.lraId = lraId;
+    public Shipment(String orderId, int price, boolean comleted) {
+        this.orderId = orderId;
         this.price = price;
         this.comleted = comleted;
     }
@@ -39,8 +39,8 @@ public class Shipment {
         return id;
     }
 
-    public String getLraId() {
-        return lraId;
+    public String getOrderId() {
+        return orderId;
     }
 
     public int getPrice() {

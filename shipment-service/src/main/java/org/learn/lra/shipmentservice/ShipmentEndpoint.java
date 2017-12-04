@@ -6,6 +6,8 @@ import io.narayana.lra.annotation.LRA;
 import io.narayana.lra.client.LRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRAOperationAPI;
+import org.learn.lra.coreapi.OrderInfo;
+import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.ShipmentInfo;
 
 import javax.ejb.EJB;
@@ -31,14 +33,12 @@ public class ShipmentEndpoint {
 
     @POST
     @Path(LRAOperationAPI.REQUEST)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @LRA(value = LRA.Type.REQUIRED)
-    public ShipmentInfo requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, Object lraInfo) {
-        log.info("received info - " + lraInfo);
-
-//        return shipmentService.computeShipment(productInfo);
-        return new ShipmentInfo("sadf", 42);
+    public String requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
+        shipmentService.computeShipment(orderInfo);
+        return String.format("Shipment for order %s processed", orderInfo.getOrderId());
     }
 
     @GET

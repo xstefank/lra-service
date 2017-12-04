@@ -28,6 +28,7 @@ public class Order {
     @NotNull
     private int productPrice;
 
+    private boolean completed;
 
     public Order(ProductInfo productInfo) {
         this.productId = productInfo.getProductId();
@@ -65,6 +66,14 @@ public class Order {
 
     public void setProductPrice(int productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     @Override

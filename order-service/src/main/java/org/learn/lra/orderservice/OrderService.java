@@ -7,6 +7,7 @@ import org.learn.lra.coreapi.ActionType;
 import org.learn.lra.coreapi.LRA;
 import org.learn.lra.coreapi.LRABuilder;
 import org.learn.lra.coreapi.LRAResult;
+import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.Service;
 
@@ -30,13 +31,15 @@ public class OrderService {
     @Inject
     private ApiClient apiClient;
 
-    public Order createOrder(ProductInfo productInfo, String baseUri) {
+    public Order createOrder(ProductInfo productInfo) {
         log.info("creating order...");
 
+        Order order = new Order(productInfo);
+        entityManager.persist(order);
 
         LRA lra = new LRABuilder()
                 .name(ORDER_LRA)
-                .lraInfo(productInfo)
+                .lraInfo(new OrderInfo(order.getId(), productInfo))
                 .withAction(new Action("testAction1", ActionType.REQUEST, Service.SHIPMENT))
                 .withAction(new Action("testAction2", ActionType.REQUEST, Service.INVOICE))
                 .build();
@@ -44,8 +47,7 @@ public class OrderService {
         LRAResult lraResult = apiClient.processLRA(lra);
         log.info("Received LRA result - " + lraResult);
 
-        Order order = new Order(productInfo);
-//        entityManager.persist(order);
+
         return order;
 
     }
