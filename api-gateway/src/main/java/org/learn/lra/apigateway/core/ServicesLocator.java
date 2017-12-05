@@ -39,7 +39,6 @@ public class ServicesLocator {
 
                     if (host.isPresent() && port.isPresent()) {
                         URI uri = generateUrl(host.get(), port.get());
-                        log.info("adding url " + uri);
                         if (uri!= null) {
                             serviceLocations.put(service, uri);
                         }

@@ -9,6 +9,6 @@ public interface ApiClient {
 
     @RequestLine("POST /api/lra")
     @Headers("Content-Type: application/json")
-    LRAResult processLRA(LRA lra);
+    rx.Observable<LRAResult> processLRA(LRA lra);
 
 }

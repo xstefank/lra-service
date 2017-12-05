@@ -33,6 +33,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.net.URISyntaxException;
 import java.util.EnumSet;
+import java.util.Observable;
 import java.util.Optional;
 
 public class BeanConfiguration {
@@ -84,7 +85,7 @@ public class BeanConfiguration {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .target(ApiClient.class, String.format("http://%s:%s", host, port),
-                        (LRA lra) -> new LRAResult());
+                        (LRA lra) -> rx.Observable.empty());
 
     }
 

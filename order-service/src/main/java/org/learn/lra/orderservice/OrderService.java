@@ -45,8 +45,9 @@ public class OrderService {
 //                .withAction(new Action("testAction2", ActionType.REQUEST, Service.INVOICE))
                 .build();
 
-        LRAResult lraResult = apiClient.processLRA(lra);
-        log.info("Received LRA result - " + lraResult);
+        apiClient.processLRA(lra)
+                .defaultIfEmpty(null)
+                .subscribe(lraResult -> log.info("Received LRA result - " + lraResult));
 
 
         return order;

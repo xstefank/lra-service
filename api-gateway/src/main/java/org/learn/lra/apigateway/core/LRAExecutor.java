@@ -76,15 +76,17 @@ public class LRAExecutor {
                 .path(API_PREFIX)
                 .path(action.getType().getPath())
                 .build();
-        log.info(build);
+        log.info("action request url - " + build);
         WebTarget target = client.target(build);
 
         Response response = target.request().header(LRAClient.LRA_HTTP_HEADER, lraUri).post(Entity.json(lraInfo));
         log.info("Result of action - " + response.readEntity(String.class));
-        //TODO get value
+
+        Result result = response.getStatus() == Response.Status.OK.getStatusCode() ? Result.COMPLETED : Result.NEED_COMPENSATION;
+
         response.close();
 
-        return Result.COMPLETED;
+        return result;
     }
 
 //    public Future<String> processLRA(LRA lra) {
