@@ -1,4 +1,4 @@
-package org.learn.lra.invoiceservice.rest;
+package org.learn.lra.invoiceservice;
 
 
 import javax.ws.rs.Path;
@@ -8,7 +8,7 @@ import javax.ws.rs.Produces;
 
 
 @Path("/")
-public class HelloWorldEndpoint {
+public class InvoiceEndpoint {
 
 	@GET
 	@Path("/health")

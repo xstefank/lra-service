@@ -9,11 +9,33 @@
     <packaging>war</packaging>
 
     <properties>
-        <version.wildfly.swarm>2017.11.0</version.wildfly.swarm>
+        <version.wildfly.swarm>2017.8.1</version.wildfly.swarm>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <h2.version>1.4.196</h2.version>
+
+        <deltaspike.version>1.6.1</deltaspike.version>
+
+        <version.narayana>5.7.1.Final</version.narayana>
+        <version.resteasy.client>3.0.14.Final</version.resteasy.client>
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>3.1</version.compiler.plugin>
+        <version.surefire.plugin>2.16</version.surefire.plugin>
+        <version.war.plugin>2.5</version.war.plugin>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <openfeign.version>9.4.0</openfeign.version>
+        <openfeign.opentracing.version>0.0.3</openfeign.opentracing.version>
+        <opentracing.version>0.22.0</opentracing.version>
+        <opentracing.web.servlet.filter.version>0.0.8</opentracing.web.servlet.filter.version>
+        <hystrix.version>1.5.1</hystrix.version>
+        <jaeger.version>0.19.0</jaeger.version>
+        <swagger.version>1.5.8</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -39,13 +61,41 @@
         <!-- WildFly Swarm Fractions -->
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
-            <artifactId>jpa</artifactId>
+            <artifactId>logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>cdi</artifactId>
         </dependency>
         <dependency>
             <groupId>org.wildfly.swarm</groupId>
             <artifactId>jaxrs</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>datasources</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>ejb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.learn.lra</groupId>
+            <artifactId>service-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.narayana.rts</groupId>
+            <artifactId>lra-filters</artifactId>
+            <version>${version.narayana}</version>
+        </dependency>
     </dependencies>
+
 
     <build>
         <finalName>demo</finalName>
