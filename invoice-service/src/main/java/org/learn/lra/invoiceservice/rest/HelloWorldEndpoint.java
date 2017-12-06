@@ -7,8 +7,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 
 
-@Path("/hello")
+@Path("/")
 public class HelloWorldEndpoint {
+
+	@GET
+	@Path("/health")
+	@Produces("text/plain")
+	public String health() {
+		return "I'm ok";
+	}
 
 	@GET
 	@Produces("text/plain")
