@@ -34,12 +34,24 @@ public class InvoiceEndpoint {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@LRA(value = LRA.Type.REQUIRED)
-	public String requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
+	public Response requestInvoice(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
 		String lraId = LRAClient.getLRAId(lraUri);
 		log.info("processing request for LRA " + lraId);
 
 		invoiceService.computeInvoice(lraId, orderInfo);
-		return String.format("Invoice for order %s processed", orderInfo.getOrderId());
+
+		//stub for compensation scenario
+		if ("failInvoice".equals(orderInfo.getProduct().getProductId())) {
+			return Response
+					.status(Response.Status.BAD_REQUEST)
+					.entity("Invoice for order " + orderInfo.getOrderId() + " failure")
+					.build();
+		}
+
+		return Response
+				.ok()
+				.entity(String.format("Invoice for order %s processed", orderInfo.getOrderId()))
+				.build();
 	}
 
 	@PUT

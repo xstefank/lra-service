@@ -36,12 +36,24 @@ public class ShipmentEndpoint {
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @LRA(value = LRA.Type.REQUIRED)
-    public String requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
+    public Response requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
         String lraId = LRAClient.getLRAId(lraUri);
         log.info("processing request for LRA " + lraId);
 
         shipmentService.computeShipment(lraId, orderInfo);
-        return String.format("Shipment for order %s processed", orderInfo.getOrderId());
+
+        //stub for compensation scenario
+        if ("failShipment".equals(orderInfo.getProduct().getProductId())) {
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("Shipment for order " + orderInfo.getOrderId() + " failure")
+                    .build();
+        }
+
+        return Response
+                .ok()
+                .entity(String.format("Shipment for order %s processed", orderInfo.getOrderId()))
+                .build();
     }
 
     @PUT

@@ -30,9 +30,7 @@ public class InvoiceService {
 
 
     public void completeInvoice(String lraId) {
-        Invoice invoice = entityManager.createQuery("FROM Invoice WHERE lraId=:lraId", Invoice.class)
-                .setParameter("lraId", lraId)
-                .getSingleResult();
+        Invoice invoice = findInvoice(lraId);
 
         invoice.setComleted(true);
         entityManager.merge(invoice);
@@ -41,6 +39,15 @@ public class InvoiceService {
     }
 
     public void compensateInvoice(String lraId) {
-        //TODO
+        Invoice invoice = findInvoice(lraId);
+
+        entityManager.remove(invoice);
+        log.infof("Invoice %s fully compensated", invoice.getId());
+    }
+
+    private Invoice findInvoice(String lraId) {
+        return entityManager.createQuery("FROM Invoice WHERE lraId=:lraId", Invoice.class)
+                .setParameter("lraId", lraId)
+                .getSingleResult();
     }
 }

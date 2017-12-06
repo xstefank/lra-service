@@ -29,9 +29,7 @@ public class ShipmentService {
     }
 
     public void completeShipment(String lraId) {
-        Shipment shipment = entityManager.createQuery("FROM Shipment WHERE lraId=:lraId", Shipment.class)
-                .setParameter("lraId", lraId)
-                .getSingleResult();
+        Shipment shipment = findShipment(lraId);
 
         shipment.setComleted(true);
         entityManager.merge(shipment);
@@ -41,7 +39,16 @@ public class ShipmentService {
     }
 
     public void compensateShipment(String lraId) {
-        //TODO
+        Shipment shipment = findShipment(lraId);
+
+        entityManager.remove(shipment);
+        log.infof("Shipment %s fully compensated", shipment.getId());
+    }
+
+    private Shipment findShipment(String lraId) {
+        return entityManager.createQuery("FROM Shipment WHERE lraId=:lraId", Shipment.class)
+                .setParameter("lraId", lraId)
+                .getSingleResult();
     }
 
 }
