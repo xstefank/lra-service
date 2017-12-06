@@ -26,8 +26,6 @@ public class LRAExecutor {
     private static final String API_PREFIX = "api";
     private static final Logger log = Logger.getLogger(LRAExecutor.class);
 
-//    private ExecutorService executorService = Executors.newFixedThreadPool(5);
-
     @Inject
     @CurrentLRAClient
     private LRAClientAPI lraClient;
@@ -92,9 +90,4 @@ public class LRAExecutor {
         return result;
     }
 
-//    public Future<String> processLRA(LRA lra) {
-//
-//        log.infof("Processing LRA %s with id - %s", lra.getName(), lra.getId());
-//        return executorService.submit(new LRAWorker(lra));
-//    }
 }
