@@ -29,8 +29,9 @@ public class ShipmentService {
     }
 
     public void completeShipment(String lraId) {
-        Shipment shipment = entityManager.createQuery("FROM Shipment WHERE lraId=?", Shipment.class)
-                .setParameter(1, lraId).getSingleResult();
+        Shipment shipment = entityManager.createQuery("FROM Shipment WHERE lraId=:lraId", Shipment.class)
+                .setParameter("lraId", lraId)
+                .getSingleResult();
 
         shipment.setComleted(true);
         entityManager.merge(shipment);

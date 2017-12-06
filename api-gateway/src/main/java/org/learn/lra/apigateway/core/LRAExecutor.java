@@ -52,7 +52,10 @@ public class LRAExecutor {
             lraClient.closeLRA(lraUrlId);
         }
 
-        return new LRAResult(lra, needCompensation ? Result.NEED_COMPENSATION : Result.COMPLETED);
+        LRAResult lraResult = new LRAResult(lra, needCompensation ? Result.NEED_COMPENSATION : Result.COMPLETED);
+        log.infof("Processed LRA %s with result %s", lra, lraResult.getResult());
+
+        return lraResult;
     }
 
     private URL startLRA(String baseUri) {

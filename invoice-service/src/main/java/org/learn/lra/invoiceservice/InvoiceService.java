@@ -16,12 +16,28 @@ public class InvoiceService {
     private EntityManager entityManager;
 
     public void computeInvoice(String lraId, OrderInfo orderInfo) {
-        //TODO
+        String invoiceString = createInvoice(orderInfo);
+
+        Invoice invoice = new Invoice(orderInfo.getOrderId(), lraId, invoiceString);
+        entityManager.persist(invoice);
+        log.infof("Invoice for order %s persisted at %s", orderInfo.getOrderId(), invoice.getId());
+    }
+
+    private String createInvoice(OrderInfo orderInfo) {
+        //return testing stub
+        return "this is not the invoice you're looking for";
     }
 
 
     public void completeInvoice(String lraId) {
-        //TODO
+        Invoice invoice = entityManager.createQuery("FROM Invoice WHERE lraId=:lraId", Invoice.class)
+                .setParameter("lraId", lraId)
+                .getSingleResult();
+
+        invoice.setComleted(true);
+        entityManager.merge(invoice);
+
+        log.infof("Invoice %s fully completed", invoice.getId());
     }
 
     public void compensateInvoice(String lraId) {
