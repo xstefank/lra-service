@@ -41,6 +41,7 @@ public class LRAExecutor {
         Object info = lra.getInfo();
 
         boolean needCompensation = lra.getActions().stream()
+                .parallel()
                 .map(a -> executeAction(a, info, lraUrlId.toString()))
                 .anyMatch(x -> x.equals(Result.NEED_COMPENSATION));
 
