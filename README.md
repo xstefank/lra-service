@@ -7,7 +7,7 @@ Narayana LRA example application
  * `cd {project.dir}/service-model`
  * `mvn clean install`
 
-2. run minishift instance according to [setup file](setup.md)
+2. run minishift instance according to the [setup file](setup.md)
 
 3. create and build api-gateway app
  * `cd {project.dir}/api-gateway`

@@ -18,6 +18,6 @@ minishift config set vm-driver virtualbox
 
 `eval $(minishift docker-env)`
 
-`docker login -u developer -p $(oc whoami -t) $(minishift openshift registry) `
+`docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)`
 
 
