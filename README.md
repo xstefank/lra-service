@@ -3,29 +3,37 @@ Narayana LRA example application
 
 ## Running
 
+1. run minishift instance according to the [setup file](setup.md)
+
+### Quick start
+
+* `./run.sh`
+
+this script assumes the configured and run minishift instance from the previous step
+
+### Manual steps
+
 1. build service-model
  * `cd {project.dir}/service-model`
  * `mvn clean install`
 
-2. run minishift instance according to the [setup file](setup.md)
-
-3. create and build api-gateway app
+2. create and build api-gateway app
  * `cd {project.dir}/api-gateway`
  * `mvn clean package fabric8:deploy`
 
-4. create and build order-service app
+3. create and build order-service app
  * `cd {project.dir}/order-service`
  * `mvn clean package fabric8:deploy`
 
-5. create and build shipment-service app
+4. create and build shipment-service app
  * `cd {project.dir}/shipment-service`
  * `mvn clean package fabric8:deploy`
 
-6. create and build invoice-service app
+5. create and build invoice-service app
  * `cd {project.dir}/invoice-service`
  * `mvn clean package fabric8:deploy`
 
-7. create and build lra-coordinator app
+6. create and build lra-coordinator app
  * `cd {project.dir}/lra-coordinator`
  * `mvn clean package fabric8:deploy`
 
