@@ -4,9 +4,8 @@ import io.narayana.lra.client.LRAClientAPI;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.ActionType;
-import org.learn.lra.coreapi.LRA;
+import org.learn.lra.coreapi.LRADefinition;
 import org.learn.lra.coreapi.LRABuilder;
-import org.learn.lra.coreapi.LRAResult;
 import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.Service;
@@ -37,14 +36,14 @@ public class OrderService {
         Order order = new Order(productInfo);
         entityManager.persist(order);
 
-        LRA lra = new LRABuilder()
+        LRADefinition lraDefinition = new LRABuilder()
                 .name(ORDER_LRA)
                 .lraInfo(new OrderInfo(order.getId(), productInfo))
                 .withAction(new Action("shipment request", ActionType.REQUEST, Service.SHIPMENT))
                 .withAction(new Action("invoice request", ActionType.REQUEST, Service.INVOICE))
                 .build();
 
-        apiClient.processLRA(lra)
+        apiClient.processLRA(lraDefinition)
                 .defaultIfEmpty(null)
                 .subscribe(lraResult -> log.info("Received LRA result - " + lraResult));
 

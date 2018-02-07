@@ -6,7 +6,6 @@ import org.learn.lra.coreapi.Service;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;

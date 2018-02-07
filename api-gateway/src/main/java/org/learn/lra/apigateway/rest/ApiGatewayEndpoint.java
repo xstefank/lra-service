@@ -37,7 +37,7 @@ public class ApiGatewayEndpoint {
     @Compensate
     public Response compensateWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
         String lraId = LRAClient.getLRAId(lraUri);
-        log.info("compensating LRA " + lraId);
+        log.info("compensating LRADefinition " + lraId);
 
         return Response.ok().build();
     }

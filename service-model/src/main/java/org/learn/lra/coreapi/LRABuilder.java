@@ -25,7 +25,7 @@ public class LRABuilder {
         return this;
     }
 
-    public LRA build() {
-        return new LRAImpl(name, actions, lraInfo);
+    public LRADefinition build() {
+        return new LRADefinitionImpl(name, actions, lraInfo);
     }
 }

@@ -8,13 +8,14 @@ import java.util.List;
 
 @ToString
 @NoArgsConstructor
-public class LRAImpl implements LRA {
+public class LRADefinitionImpl implements LRADefinition
+{
 
     private String name;
     private List<Action> actions;
     private Object info;
 
-    public LRAImpl(String name, List<Action> actions, Object info) {
+    public LRADefinitionImpl(String name, List<Action> actions, Object info) {
         this.name = name;
         this.actions = actions;
         this.info = info;

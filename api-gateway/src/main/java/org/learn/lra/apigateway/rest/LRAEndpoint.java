@@ -3,7 +3,7 @@ package org.learn.lra.apigateway.rest;
 
 import org.jboss.logging.Logger;
 import org.learn.lra.apigateway.core.LRAExecutor;
-import org.learn.lra.coreapi.LRA;
+import org.learn.lra.coreapi.LRADefinition;
 import org.learn.lra.coreapi.LRAResult;
 
 import javax.ejb.EJB;
@@ -30,9 +30,9 @@ public class LRAEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public LRAResult lraRequest(LRA lra) {
-        log.info("received lra - " + lra);
-        return lraExecutor.processLRA(lra, uriInfo.getBaseUri().toString());
+    public LRAResult lraRequest(LRADefinition lraDefinition) {
+        log.info("received lra - " + lraDefinition);
+        return lraExecutor.processLRA(lraDefinition, uriInfo.getBaseUri().toString());
     }
 
 

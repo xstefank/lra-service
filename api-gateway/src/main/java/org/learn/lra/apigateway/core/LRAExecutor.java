@@ -4,7 +4,7 @@ import io.narayana.lra.client.LRAClient;
 import io.narayana.lra.client.LRAClientAPI;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
-import org.learn.lra.coreapi.LRA;
+import org.learn.lra.coreapi.LRADefinition;
 import org.learn.lra.coreapi.LRAResult;
 import org.learn.lra.coreapi.Result;
 
@@ -33,14 +33,14 @@ public class LRAExecutor {
     @Inject
     private ServicesLocator servicesLocator;
 
-    public LRAResult processLRA(LRA lra, String baseUri) {
+    public LRAResult processLRA(LRADefinition lraDefinition, String baseUri) {
 
-        log.infof("Processing LRA %s", lra);
+        log.infof("Processing LRA %s", lraDefinition);
 
         URL lraUrlId = startLRA(baseUri);
-        Object info = lra.getInfo();
+        Object info = lraDefinition.getInfo();
 
-        boolean needCompensation = lra.getActions().stream()
+        boolean needCompensation = lraDefinition.getActions().stream()
                 .parallel()
                 .map(a -> executeAction(a, info, lraUrlId.toString()))
                 .anyMatch(x -> x.equals(Result.NEED_COMPENSATION));
@@ -51,8 +51,8 @@ public class LRAExecutor {
             lraClient.closeLRA(lraUrlId);
         }
 
-        LRAResult lraResult = new LRAResult(lra, needCompensation ? Result.NEED_COMPENSATION : Result.COMPLETED);
-        log.infof("Processed LRA %s with result %s", lra, lraResult.getResult());
+        LRAResult lraResult = new LRAResult(lraDefinition, needCompensation ? Result.NEED_COMPENSATION : Result.COMPLETED);
+        log.infof("Processed LRA %s with result %s", lraDefinition, lraResult.getResult());
 
         return lraResult;
     }

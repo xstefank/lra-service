@@ -62,7 +62,7 @@ public class ShipmentEndpoint {
     @Complete
     public Response completeWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
         String lraId = LRAClient.getLRAId(lraUri);
-        log.info("completing shipment for LRA " + lraId);
+        log.info("completing shipment for LRA" + lraId);
 
         shipmentService.completeShipment(lraId);
         return Response.ok().build();

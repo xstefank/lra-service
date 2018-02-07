@@ -5,9 +5,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 
-@JsonSerialize(as = LRAImpl.class)
-@JsonDeserialize(as = LRAImpl.class)
-public interface LRA {
+@JsonSerialize(as = LRADefinitionImpl.class)
+@JsonDeserialize(as = LRADefinitionImpl.class)
+public interface LRADefinition
+{
 
     String getName();
 

@@ -20,8 +20,7 @@ import io.opentracing.contrib.web.servlet.filter.TracingFilter;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.microprofile.config.Config;
 import org.jboss.logging.Logger;
-import org.learn.lra.coreapi.LRA;
-import org.learn.lra.coreapi.LRAResult;
+import org.learn.lra.coreapi.LRADefinition;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -33,7 +32,6 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.net.URISyntaxException;
 import java.util.EnumSet;
-import java.util.Observable;
 import java.util.Optional;
 
 public class BeanConfiguration {
@@ -85,7 +83,7 @@ public class BeanConfiguration {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .target(ApiClient.class, String.format("http://%s:%s", host, port),
-                        (LRA lra) -> rx.Observable.empty());
+                        (LRADefinition lraDefinition) -> rx.Observable.empty());
 
     }
 
