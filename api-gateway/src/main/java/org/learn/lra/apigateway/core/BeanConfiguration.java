@@ -7,8 +7,7 @@ import com.uber.jaeger.reporters.RemoteReporter;
 import com.uber.jaeger.samplers.ProbabilisticSampler;
 import com.uber.jaeger.senders.Sender;
 import com.uber.jaeger.senders.UdpSender;
-import io.narayana.lra.client.LRAClient;
-import io.narayana.lra.client.LRAClientAPI;
+import io.narayana.lra.client.NarayanaLRAClient;
 import io.opentracing.NoopTracerFactory;
 import io.opentracing.Tracer;
 import io.opentracing.contrib.web.servlet.filter.TracingFilter;
@@ -61,13 +60,13 @@ public class BeanConfiguration {
 
     @Produces
     @CurrentLRAClient
-    public LRAClientAPI lraClient() {
+    public NarayanaLRAClient lraClient() {
         try {
 
             Optional<String> host = config.getOptionalValue("lra.coordinator.host", String.class);
             Optional<Integer> port = config.getOptionalValue("lra.coordinator.port", Integer.class);
 
-            LRAClient lraClient = new LRAClient(host.orElse("lra-coordinator"), port.orElse(8080));
+            NarayanaLRAClient lraClient = new NarayanaLRAClient(host.orElse("lra-coordinator"), port.orElse(8080));
             log.info(">>> LRA coordinator to connect is at " + lraClient.getUrl());
             return lraClient;
         } catch (URISyntaxException urise) {

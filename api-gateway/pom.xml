@@ -18,7 +18,7 @@
 
     <deltaspike.version>1.6.1</deltaspike.version>
 
-    <version.narayana>5.7.1.Final</version.narayana>
+    <version.narayana>5.7.2.Final</version.narayana>
 
     <!-- other plugin versions -->
     <version.compiler.plugin>3.1</version.compiler.plugin>

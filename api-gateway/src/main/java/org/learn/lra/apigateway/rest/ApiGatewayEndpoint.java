@@ -3,6 +3,7 @@ package org.learn.lra.apigateway.rest;
 import io.narayana.lra.annotation.Compensate;
 import io.narayana.lra.annotation.Complete;
 import io.narayana.lra.client.LRAClient;
+import io.narayana.lra.client.NarayanaLRAClient;
 import io.swagger.annotations.ApiOperation;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRAOperationAPI;
@@ -24,8 +25,8 @@ public class ApiGatewayEndpoint {
     @Path(LRAOperationAPI.COMPLETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Complete
-    public Response completeWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
-        String lraId = LRAClient.getLRAId(lraUri);
+    public Response completeWork(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri) {
+        String lraId = NarayanaLRAClient.getLRAId(lraUri);
         log.info("completing LRA " + lraId);
 
         return Response.ok().build();
@@ -35,8 +36,8 @@ public class ApiGatewayEndpoint {
     @Path(LRAOperationAPI.COMPENSATE)
     @Produces(MediaType.APPLICATION_JSON)
     @Compensate
-    public Response compensateWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
-        String lraId = LRAClient.getLRAId(lraUri);
+    public Response compensateWork(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri) {
+        String lraId = NarayanaLRAClient.getLRAId(lraUri);
         log.info("compensating LRADefinition " + lraId);
 
         return Response.ok().build();

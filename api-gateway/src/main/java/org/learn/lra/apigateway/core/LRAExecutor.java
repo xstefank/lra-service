@@ -1,7 +1,6 @@
 package org.learn.lra.apigateway.core;
 
-import io.narayana.lra.client.LRAClient;
-import io.narayana.lra.client.LRAClientAPI;
+import io.narayana.lra.client.NarayanaLRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.LRADefinition;
@@ -28,7 +27,7 @@ public class LRAExecutor {
 
     @Inject
     @CurrentLRAClient
-    private LRAClientAPI lraClient;
+    private NarayanaLRAClient lraClient;
 
     @Inject
     private ServicesLocator servicesLocator;
@@ -81,7 +80,7 @@ public class LRAExecutor {
         log.info("action request url - " + build);
         WebTarget target = client.target(build);
 
-        Response response = target.request().header(LRAClient.LRA_HTTP_HEADER, lraUri).post(Entity.json(lraInfo));
+        Response response = target.request().header(NarayanaLRAClient.LRA_HTTP_HEADER, lraUri).post(Entity.json(lraInfo));
         log.info("Result of action - " + response.readEntity(String.class));
 
         Result result = response.getStatus() == Response.Status.OK.getStatusCode() ? Result.COMPLETED : Result.NEED_COMPENSATION;
