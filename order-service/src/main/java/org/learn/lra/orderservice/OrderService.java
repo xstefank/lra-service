@@ -1,11 +1,11 @@
 package org.learn.lra.orderservice;
 
-import io.narayana.lra.client.LRAClientAPI;
+import io.narayana.lra.client.LRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.ActionType;
-import org.learn.lra.coreapi.LRADefinition;
 import org.learn.lra.coreapi.LRABuilder;
+import org.learn.lra.coreapi.LRADefinition;
 import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.Service;
@@ -25,7 +25,7 @@ public class OrderService {
 
     @Inject
     @CurrentLRAClient
-    private LRAClientAPI lraClient;
+    private LRAClient lraClient;
 
     @Inject
     private ApiClient apiClient;

@@ -18,7 +18,7 @@
 
         <deltaspike.version>1.6.1</deltaspike.version>
 
-        <version.narayana>5.7.1.Final</version.narayana>
+        <version.narayana>5.8.1.Final-SNAPSHOT</version.narayana>
         <version.resteasy.client>3.0.14.Final</version.resteasy.client>
 
         <!-- other plugin versions -->

@@ -5,6 +5,7 @@ import io.narayana.lra.annotation.Compensate;
 import io.narayana.lra.annotation.Complete;
 import io.narayana.lra.annotation.LRA;
 import io.narayana.lra.client.LRAClient;
+import io.narayana.lra.client.NarayanaLRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRAOperationAPI;
 import org.learn.lra.coreapi.OrderInfo;
@@ -34,8 +35,8 @@ public class InvoiceEndpoint {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@LRA(value = LRA.Type.REQUIRED)
-	public Response requestInvoice(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
-		String lraId = LRAClient.getLRAId(lraUri);
+	public Response requestInvoice(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
+		String lraId = NarayanaLRAClient.getLRAId(lraUri);
 		log.info("processing request for LRA " + lraId);
 
 		invoiceService.computeInvoice(lraId, orderInfo);
@@ -58,8 +59,8 @@ public class InvoiceEndpoint {
 	@Path(LRAOperationAPI.COMPLETE)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Complete
-	public Response completeWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
-		String lraId = LRAClient.getLRAId(lraUri);
+	public Response completeWork(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri) {
+		String lraId = NarayanaLRAClient.getLRAId(lraUri);
 		log.info("completing invoice for LRA " + lraId);
 
 		invoiceService.completeInvoice(lraId);
@@ -70,8 +71,8 @@ public class InvoiceEndpoint {
 	@Path(LRAOperationAPI.COMPENSATE)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Compensate
-	public Response compensateWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
-		String lraId = LRAClient.getLRAId(lraUri);
+	public Response compensateWork(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri) {
+		String lraId = NarayanaLRAClient.getLRAId(lraUri);
 		log.info("compensating invoice for LRA " + lraId);
 
 

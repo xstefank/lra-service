@@ -4,6 +4,7 @@ import io.narayana.lra.annotation.Compensate;
 import io.narayana.lra.annotation.Complete;
 import io.narayana.lra.annotation.LRA;
 import io.narayana.lra.client.LRAClient;
+import io.narayana.lra.client.NarayanaLRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRAOperationAPI;
 import org.learn.lra.coreapi.OrderInfo;
@@ -36,8 +37,8 @@ public class ShipmentEndpoint {
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @LRA(value = LRA.Type.REQUIRED)
-    public Response requestShipment(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
-        String lraId = LRAClient.getLRAId(lraUri);
+    public Response requestShipment(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
+        String lraId = NarayanaLRAClient.getLRAId(lraUri);
         log.info("processing request for LRA " + lraId);
 
         shipmentService.computeShipment(lraId, orderInfo);
@@ -60,8 +61,8 @@ public class ShipmentEndpoint {
     @Path(LRAOperationAPI.COMPLETE)
     @Produces(MediaType.APPLICATION_JSON)
     @Complete
-    public Response completeWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
-        String lraId = LRAClient.getLRAId(lraUri);
+    public Response completeWork(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri) {
+        String lraId = NarayanaLRAClient.getLRAId(lraUri);
         log.info("completing shipment for LRA" + lraId);
 
         shipmentService.completeShipment(lraId);
@@ -72,8 +73,8 @@ public class ShipmentEndpoint {
     @Path(LRAOperationAPI.COMPENSATE)
     @Produces(MediaType.APPLICATION_JSON)
     @Compensate
-    public Response compensateWork(@HeaderParam(LRAClient.LRA_HTTP_HEADER) String lraUri) {
-        String lraId = LRAClient.getLRAId(lraUri);
+    public Response compensateWork(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri) {
+        String lraId = NarayanaLRAClient.getLRAId(lraUri);
         log.info("compensating shipment for LRA " + lraId);
 
 
