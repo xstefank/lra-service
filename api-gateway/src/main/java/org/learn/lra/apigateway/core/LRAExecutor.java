@@ -32,11 +32,11 @@ public class LRAExecutor {
     @Inject
     private ServicesLocator servicesLocator;
 
-    public LRAResult processLRA(LRADefinition lraDefinition, String baseUri) {
+    public LRAResult processLRA(LRADefinition lraDefinition, String initiatorUri) {
 
         log.infof("Processing LRA %s", lraDefinition);
 
-        URL lraUrlId = startLRA(baseUri);
+        URL lraUrlId = startLRA(initiatorUri);
         Object info = lraDefinition.getInfo();
 
         boolean needCompensation = lraDefinition.getActions().stream()
@@ -56,15 +56,15 @@ public class LRAExecutor {
         return lraResult;
     }
 
-    private URL startLRA(String baseUri) {
+    private URL startLRA(String initiatiorUri) {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         URL lraUrlId = lraClient.startLRA(null, LRAExecutor.class.getName() + "#"
                 + methodName, 0L, TimeUnit.SECONDS);
 
-        String recoveryPath = lraClient.joinLRA(lraUrlId, 0L, baseUri, null);
+        String recoveryPath = lraClient.joinLRA(lraUrlId, 0L, initiatiorUri, null);
         log.infof("Starting LRA: %s when joining with baseUri: %s on enlistment gets recovery path: %s",
-                lraUrlId, baseUri, recoveryPath);
+                lraUrlId, initiatiorUri, recoveryPath);
         return lraUrlId;
     }
 

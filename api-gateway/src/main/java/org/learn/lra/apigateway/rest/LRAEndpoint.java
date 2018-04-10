@@ -32,6 +32,7 @@ public class LRAEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public LRAResult lraRequest(LRADefinition lraDefinition) {
         log.info("received lra - " + lraDefinition);
+        log.infof("XXXXXXXXXXXXX - " + uriInfo.getRequestUri());
         return lraExecutor.processLRA(lraDefinition, uriInfo.getBaseUri().toString());
     }
 
