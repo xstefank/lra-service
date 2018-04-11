@@ -2,6 +2,7 @@ package org.learn.lra.orderservice;
 
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRAResult;
+import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ProductInfo;
 
 import javax.ejb.Stateless;
@@ -28,8 +29,8 @@ public class OrderDAO {
     public void processLRAResult(LRAResult lraResult) {
         log.info("Received LRA result - " + lraResult);
 
-        LinkedHashMap<String, String> hashMap = (LinkedHashMap<String, String>) lraResult.getLraDefinition().getInfo();
-        Order order = em.find(Order.class, hashMap.get("orderId"));
+        OrderInfo orderInfo = (OrderInfo) lraResult.getLraDefinition().getInfo();
+        Order order = em.find(Order.class, orderInfo.getOrderId());
         order.setCompleted(true);
         em.merge(order);
         log.info("Order " + order.getId() + "processed");
