@@ -1,9 +1,8 @@
-FROM fabric8/java-jboss-openjdk8-jdk:1.2.3
 
-ENV JAVA_APP_JAR order-service-swarm.jar
-ENV AB_ENABLED off
-ENV JAVA_OPTIONS -Xmx512m
+FROM openjdk:8u141-jdk
 
-EXPOSE 8080
+COPY target/order-service-swarm.jar .
 
-ADD target/order-service-swarm.jar /deployments/
+CMD java ${JAVA_OPTS} -jar order-service-swarm.jar -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true
+
+

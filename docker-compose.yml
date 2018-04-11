@@ -1,0 +1,36 @@
+
+version: "2.1"
+
+services:
+  order-service:
+    build: ./order-service
+    ports:
+      - "8080:8080"
+
+  shipment-service:
+    build: ./shipment-service
+    ports:
+      - "8081:8080"
+
+  invoice-service:
+    build: ./invoice-service
+    ports:
+      - "8082:8080"
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8083:8080"
+
+  lra-coordinator:
+    build: ./lra-coordinator
+    ports:
+      - "8084:8080"
+
+
+
+
+
+
+
+

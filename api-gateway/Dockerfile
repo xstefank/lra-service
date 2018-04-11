@@ -1,9 +1,7 @@
-FROM fabric8/java-jboss-openjdk8-jdk:1.2.3
+FROM openjdk:8u141-jdk
 
-ENV JAVA_APP_JAR api-gateway-swarm.jar
-ENV AB_ENABLED off
-ENV JAVA_OPTIONS -Xmx512m
+COPY target/api-gateway-swarm.jar .
 
-EXPOSE 8080
+CMD java ${JAVA_OPTS} -jar api-gateway-swarm.jar -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true
 
-ADD target/api-gateway-swarm.jar /deployments/
+

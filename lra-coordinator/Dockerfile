@@ -1,12 +1,9 @@
-FROM fabric8/java-jboss-openjdk8-jdk:1.2.3
+FROM openjdk:8u141-jdk
 
-ENV JAVA_APP_JAR lra-coordinator-swarm.jar
-ENV AB_ENABLED off
-# to get more info about LRA processing in console you can add switch
-#  -Dswarm.logging=TRACE
-ENV JAVA_OPTIONS -Xmx512m
+COPY target/lra-coordinator-swarm.jar .
 
-EXPOSE 8080
+CMD java ${JAVA_OPTS} -jar lra-coordinator-swarm.jar -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true
 
-ADD target/lra-coordinator-swarm.jar /deployments/
+
+
 
