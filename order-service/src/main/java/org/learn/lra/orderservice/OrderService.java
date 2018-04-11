@@ -12,6 +12,7 @@ import org.learn.lra.coreapi.Service;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 
 @Stateless
 public class OrderService {
@@ -29,7 +30,7 @@ public class OrderService {
     @Inject
     private ApiClient apiClient;
 
-    public Order createOrder(ProductInfo productInfo) {
+    public Response createOrder(ProductInfo productInfo) {
         log.info("creating order...");
 
         Order order = orderDAO.create(productInfo);
@@ -46,7 +47,7 @@ public class OrderService {
                 .subscribe(orderDAO::processLRAResult);
 
 
-        return order;
+        return Response.ok(order.getId()).build();
 
     }
 
