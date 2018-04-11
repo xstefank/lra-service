@@ -21,6 +21,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.microprofile.config.Config;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRADefinition;
+import org.learn.lra.coreapi.LRAResult;
+import org.learn.lra.coreapi.Result;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -83,7 +85,7 @@ public class BeanConfiguration {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .target(ApiClient.class, String.format("http://%s:%s", host, port),
-                        (LRADefinition lraDefinition) -> rx.Observable.empty());
+                        (LRADefinition lraDefinition) -> rx.Observable.just(new LRAResult(lraDefinition, Result.NEED_COMPENSATION)));
 
     }
 
