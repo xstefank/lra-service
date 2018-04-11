@@ -34,6 +34,7 @@ public class Order {
         this.productId = productInfo.getProductId();
         this.productComment = productInfo.getComment();
         this.productPrice = productInfo.getPrice();
+        this.completed = false;
     }
 
     public String getId() {

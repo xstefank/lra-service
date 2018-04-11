@@ -12,7 +12,6 @@ import org.learn.lra.coreapi.Service;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 @Stateless
 public class OrderService {
@@ -21,7 +20,7 @@ public class OrderService {
     private static final Logger log = Logger.getLogger(OrderService.class);
 
     @Inject
-    private EntityManager entityManager;
+    private OrderDAO orderDAO;
 
     @Inject
     @CurrentLRAClient
@@ -33,8 +32,7 @@ public class OrderService {
     public Order createOrder(ProductInfo productInfo) {
         log.info("creating order...");
 
-        Order order = new Order(productInfo);
-        entityManager.persist(order);
+        Order order = orderDAO.create(productInfo);
 
         LRADefinition lraDefinition = new LRABuilder()
                 .name(ORDER_LRA)
@@ -45,7 +43,7 @@ public class OrderService {
 
         apiClient.processLRA(lraDefinition)
                 .defaultIfEmpty(null)
-                .subscribe(lraResult -> log.info("Received LRA result - " + lraResult));
+                .subscribe(orderDAO::processLRAResult);
 
 
         return order;
