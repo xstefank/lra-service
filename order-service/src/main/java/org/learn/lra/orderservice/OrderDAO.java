@@ -29,8 +29,8 @@ public class OrderDAO {
     public void processLRAResult(LRAResult lraResult) {
         log.info("Received LRA result - " + lraResult);
 
-        OrderInfo orderInfo = (OrderInfo) lraResult.getLraDefinition().getInfo();
-        Order order = em.find(Order.class, orderInfo.getOrderId());
+        LinkedHashMap<String, String> orderInfo = (LinkedHashMap<String, String>) lraResult.getLraDefinition().getInfo();
+        Order order = em.find(Order.class, orderInfo.get("orderId"));
         order.setCompleted(true);
         em.merge(order);
         log.info("Order " + order.getId() + "processed");

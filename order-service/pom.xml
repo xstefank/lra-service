@@ -39,7 +39,6 @@
         <openfeign.opentracing.version>0.0.3</openfeign.opentracing.version>
         <opentracing.version>0.22.0</opentracing.version>
         <opentracing.web.servlet.filter.version>0.0.8</opentracing.web.servlet.filter.version>
-        <hystrix.version>1.5.1</hystrix.version>
         <jaeger.version>0.19.0</jaeger.version>
         <swagger.version>1.5.8</swagger.version>
     </properties>
@@ -146,11 +145,6 @@
 
         <!-- Feign -->
         <dependency>
-            <groupId>io.github.openfeign.opentracing</groupId>
-            <artifactId>feign-hystrix-opentracing</artifactId>
-            <version>${openfeign.opentracing.version}</version>
-        </dependency>
-        <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-jackson</artifactId>
             <version>${openfeign.version}</version>
@@ -159,38 +153,6 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
             <version>${openfeign.version}</version>
-        </dependency>
-
-
-        <!-- hystrix-metrics-event-stream -->
-        <dependency>
-            <groupId>com.netflix.hystrix</groupId>
-            <artifactId>hystrix-core</artifactId>
-            <version>${hystrix.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.netflix.hystrix</groupId>
-            <artifactId>hystrix-metrics-event-stream</artifactId>
-            <version>${hystrix.version}</version>
-        </dependency>
-
-        <!-- OpenTracing -->
-        <dependency>
-            <groupId>io.opentracing</groupId>
-            <artifactId>opentracing-noop</artifactId>
-            <version>${opentracing.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentracing.contrib</groupId>
-            <artifactId>opentracing-web-servlet-filter</artifactId>
-            <version>${opentracing.web.servlet.filter.version}</version>
-        </dependency>
-
-        <!-- OpenTracing implementation - Jaeger -->
-        <dependency>
-            <groupId>com.uber.jaeger</groupId>
-            <artifactId>jaeger-core</artifactId>
-            <version>${jaeger.version}</version>
         </dependency>
 
         <!-- Swagger -->
@@ -211,17 +173,6 @@
             <artifactId>lra-client</artifactId>
             <version>${version.narayana}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.jboss.resteasy</groupId>-->
-            <!--<artifactId>resteasy-client</artifactId>-->
-            <!--<version>${version.resteasy.client}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jboss.resteasy</groupId>-->
-            <!--<artifactId>resteasy-jaxrs</artifactId>-->
-            <!--<version>3.0.14.Final</version>-->
-        <!--</dependency>-->
-
     </dependencies>
 
     <build>
@@ -257,10 +208,6 @@
                                 <property>
                                     <name>app</name>
                                     <value>${project.artifactId}</value>
-                                </property>
-                                <property>
-                                    <name>hystrix.enabled</name>
-                                    <value>true</value>
                                 </property>
                             </all>
                         </labels>

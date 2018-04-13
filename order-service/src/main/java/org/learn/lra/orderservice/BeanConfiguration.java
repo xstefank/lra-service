@@ -1,39 +1,18 @@
 package org.learn.lra.orderservice;
 
-import com.uber.jaeger.metrics.Metrics;
-import com.uber.jaeger.metrics.NullStatsReporter;
-import com.uber.jaeger.metrics.StatsFactoryImpl;
-import com.uber.jaeger.reporters.RemoteReporter;
-import com.uber.jaeger.samplers.ProbabilisticSampler;
-import com.uber.jaeger.senders.Sender;
-import com.uber.jaeger.senders.UdpSender;
+import feign.Feign;
 import feign.httpclient.ApacheHttpClient;
-import feign.hystrix.HystrixFeign;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
-import feign.opentracing.TracingClient;
-import io.narayana.lra.client.LRAClient;
 import io.narayana.lra.client.NarayanaLRAClient;
-import io.opentracing.NoopTracerFactory;
-import io.opentracing.Tracer;
-import io.opentracing.contrib.web.servlet.filter.TracingFilter;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.microprofile.config.Config;
 import org.jboss.logging.Logger;
-import org.learn.lra.coreapi.LRADefinition;
-import org.learn.lra.coreapi.LRAResult;
-import org.learn.lra.coreapi.Result;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 import java.net.URISyntaxException;
-import java.util.EnumSet;
 import java.util.Optional;
 
 public class BeanConfiguration {
@@ -47,45 +26,22 @@ public class BeanConfiguration {
     @Inject
     private Config config;
 
-    @Produces
-    @Singleton
-    public Tracer tracer() {
-        String jaegerURL = System.getenv("JAEGER_SERVER_HOSTNAME");
-        if (jaegerURL != null) {
-            log.info("Using Jaeger tracer");
-            return jaegerTracer(jaegerURL);
-        }
-
-        log.info("Using Noop tracer");
-        return NoopTracerFactory.create();
-
-    }
-
-    private Tracer jaegerTracer(String url) {
-        Sender sender = new UdpSender(url, 0, 0);
-        return new com.uber.jaeger.Tracer.Builder(SERVICE_NAME,
-                new RemoteReporter(sender, 100, 50,
-                        new Metrics(new StatsFactoryImpl(new NullStatsReporter()))),
-                new ProbabilisticSampler(1.0))
-                .build();
-    }
 
     @Produces
     @Singleton
-    private ApiClient apiClient(Tracer tracer) {
+    private ApiClient apiClient() {
 
         String host = config.getValue(APIGATEWAY_URL, String.class);
         String port = config.getValue(APIGATEWAY_PORT, String.class);
 
         log.infof("API gateway expected at %s:%s", host, port);
 
-        return HystrixFeign.builder()
-                .client(new TracingClient(new ApacheHttpClient(HttpClientBuilder.create().build()), tracer))
+        return Feign.builder()
+                .client(new ApacheHttpClient(HttpClientBuilder.create().build()))
                 .logger(new feign.Logger.ErrorLogger()).logLevel(feign.Logger.Level.BASIC)
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
-                .target(ApiClient.class, String.format("http://%s:%s", host, port),
-                        (LRADefinition lraDefinition) -> rx.Observable.just(new LRAResult(lraDefinition, Result.NEED_COMPENSATION)));
+                .target(ApiClient.class, String.format("http://%s:%s", host, port));
 
     }
 
@@ -105,21 +61,5 @@ public class BeanConfiguration {
         }
     }
 
-    @WebListener
-    public static class TracingFilterRegistration implements ServletContextListener {
-        @Inject
-        private Tracer tracer;
-
-        @Override
-        public void contextInitialized(ServletContextEvent sce) {
-            FilterRegistration.Dynamic filterRegistration = sce.getServletContext()
-                    .addFilter("BraveServletFilter", new TracingFilter(tracer));
-            // Explicit mapping to avoid trace on readiness probe
-            filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/order");
-        }
-
-        @Override
-        public void contextDestroyed(ServletContextEvent sce) {}
-    }
 
 }

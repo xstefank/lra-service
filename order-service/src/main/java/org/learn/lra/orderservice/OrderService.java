@@ -6,6 +6,7 @@ import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.ActionType;
 import org.learn.lra.coreapi.LRABuilder;
 import org.learn.lra.coreapi.LRADefinition;
+import org.learn.lra.coreapi.LRAResult;
 import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.Service;
@@ -42,9 +43,8 @@ public class OrderService {
                 .withAction(new Action("invoice request", ActionType.REQUEST, Service.INVOICE))
                 .build();
 
-        apiClient.processLRA(lraDefinition)
-                .defaultIfEmpty(null)
-                .subscribe(orderDAO::processLRAResult);
+        LRAResult lraResult = apiClient.processLRA(lraDefinition);
+        orderDAO.processLRAResult(lraResult);
 
 
         return Response.ok(order.getId()).build();
