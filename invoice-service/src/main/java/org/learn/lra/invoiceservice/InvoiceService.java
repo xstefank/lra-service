@@ -1,7 +1,7 @@
 package org.learn.lra.invoiceservice;
 
 import org.jboss.logging.Logger;
-import org.learn.lra.coreapi.OrderInfo;
+import org.learn.lra.coreapi.ProductInfo;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -15,15 +15,15 @@ public class InvoiceService {
     @Inject
     private EntityManager entityManager;
 
-    public void computeInvoice(String lraId, OrderInfo orderInfo) {
-        String invoiceString = createInvoice(orderInfo);
+    public void computeInvoice(String lraId, ProductInfo productInfo) {
+        String invoiceString = createInvoice(productInfo);
 
-        Invoice invoice = new Invoice(orderInfo.getOrderId(), lraId, invoiceString);
+        Invoice invoice = new Invoice(lraId, invoiceString);
         entityManager.persist(invoice);
-        log.infof("Invoice for order %s persisted at %s", orderInfo.getOrderId(), invoice.getId());
+        log.infof("Invoice for order saga %s persisted at %s", lraId, invoice.getId());
     }
 
-    private String createInvoice(OrderInfo orderInfo) {
+    private String createInvoice(ProductInfo productInfo) {
         //return testing stub
         return "this is not the invoice you're looking for";
     }

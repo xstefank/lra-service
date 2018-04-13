@@ -2,6 +2,7 @@ package org.learn.lra.apigateway.core;
 
 import io.narayana.lra.client.NarayanaLRAClient;
 import org.jboss.logging.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.LRADefinition;
 import org.learn.lra.coreapi.LRAResult;
@@ -17,6 +18,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @Stateless
@@ -32,11 +35,17 @@ public class LRAExecutor {
     @Inject
     private ServicesLocator servicesLocator;
 
-    public LRAResult processLRA(LRADefinition lraDefinition, String initiatorUri) {
+    private ExecutorService executor = Executors.newCachedThreadPool();
 
+    public void processLRA(LRADefinition lraDefinition) {
+        executor.submit(() -> process(lraDefinition));
+    }
+
+    @NotNull
+    private LRAResult process(LRADefinition lraDefinition) {
         log.infof("Processing LRA %s", lraDefinition);
 
-        URL lraUrlId = startLRA(initiatorUri);
+        URL lraUrlId = startLRA();
         Object info = lraDefinition.getInfo();
 
         boolean needCompensation = lraDefinition.getActions().stream()
@@ -56,15 +65,12 @@ public class LRAExecutor {
         return lraResult;
     }
 
-    private URL startLRA(String initiatiorUri) {
+    private URL startLRA() {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         URL lraUrlId = lraClient.startLRA(null, LRAExecutor.class.getName() + "#"
                 + methodName, 0L, TimeUnit.SECONDS);
 
-        String recoveryPath = lraClient.joinLRA(lraUrlId, 0L, initiatiorUri, null);
-        log.infof("Starting LRA: %s when joining with baseUri: %s on enlistment gets recovery path: %s",
-                lraUrlId, initiatiorUri, recoveryPath);
         return lraUrlId;
     }
 

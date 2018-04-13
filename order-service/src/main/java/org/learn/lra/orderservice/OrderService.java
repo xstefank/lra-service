@@ -6,10 +6,9 @@ import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.ActionType;
 import org.learn.lra.coreapi.LRABuilder;
 import org.learn.lra.coreapi.LRADefinition;
-import org.learn.lra.coreapi.LRAResult;
-import org.learn.lra.coreapi.OrderInfo;
 import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.Service;
+import org.learn.lra.orderservice.model.OrderDAO;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -31,23 +30,21 @@ public class OrderService {
     @Inject
     private ApiClient apiClient;
 
-    public Response createOrder(ProductInfo productInfo) {
-        log.info("creating order...");
-
-        Order order = orderDAO.create(productInfo);
+    public Response createOrderSaga(ProductInfo productInfo) {
+        log.info("creating order saga...");
 
         LRADefinition lraDefinition = new LRABuilder()
                 .name(ORDER_LRA)
-                .lraInfo(new OrderInfo(order.getId(), productInfo))
+                .lraInfo(productInfo)
+                .withAction(new Action("order persist", ActionType.REQUEST, Service.ORDER))
                 .withAction(new Action("shipment request", ActionType.REQUEST, Service.SHIPMENT))
                 .withAction(new Action("invoice request", ActionType.REQUEST, Service.INVOICE))
                 .build();
 
-        LRAResult lraResult = apiClient.processLRA(lraDefinition);
-        orderDAO.processLRAResult(lraResult);
+        String lraResult = apiClient.processLRA(lraDefinition);
 
 
-        return Response.ok(order.getId()).build();
+        return Response.ok(lraResult).build();
 
     }
 

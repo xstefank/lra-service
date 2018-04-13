@@ -4,15 +4,16 @@ package org.learn.lra.apigateway.rest;
 import org.jboss.logging.Logger;
 import org.learn.lra.apigateway.core.LRAExecutor;
 import org.learn.lra.coreapi.LRADefinition;
-import org.learn.lra.coreapi.LRAResult;
 
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
 
@@ -29,13 +30,12 @@ public class LRAEndpoint {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public LRAResult lraRequest(LRADefinition lraDefinition) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String lraRequest(LRADefinition lraDefinition, @Context HttpServletRequest request) {
         log.info("received lra - " + lraDefinition);
-        log.infof("XXXXXXXXXXXXX - " + uriInfo.getRequestUri());
-        return lraExecutor.processLRA(lraDefinition, uriInfo.getBaseUri().toString());
+        lraExecutor.processLRA(lraDefinition);
+        return "LRA is going to be processed";
     }
-
 
 
 }

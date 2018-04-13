@@ -40,7 +40,6 @@ public class BeanConfiguration {
                 .client(new ApacheHttpClient(HttpClientBuilder.create().build()))
                 .logger(new feign.Logger.ErrorLogger()).logLevel(feign.Logger.Level.BASIC)
                 .encoder(new JacksonEncoder())
-                .decoder(new JacksonDecoder())
                 .target(ApiClient.class, String.format("http://%s:%s", host, port));
 
     }

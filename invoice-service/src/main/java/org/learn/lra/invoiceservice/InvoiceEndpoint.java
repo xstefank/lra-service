@@ -4,11 +4,10 @@ package org.learn.lra.invoiceservice;
 import io.narayana.lra.annotation.Compensate;
 import io.narayana.lra.annotation.Complete;
 import io.narayana.lra.annotation.LRA;
-import io.narayana.lra.client.LRAClient;
 import io.narayana.lra.client.NarayanaLRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRAOperationAPI;
-import org.learn.lra.coreapi.OrderInfo;
+import org.learn.lra.coreapi.ProductInfo;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -35,23 +34,23 @@ public class InvoiceEndpoint {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@LRA(value = LRA.Type.REQUIRED)
-	public Response requestInvoice(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri, OrderInfo orderInfo) {
+	public Response requestInvoice(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri, ProductInfo productInfo) {
 		String lraId = NarayanaLRAClient.getLRAId(lraUri);
 		log.info("processing request for LRA " + lraId);
 
-		invoiceService.computeInvoice(lraId, orderInfo);
+		invoiceService.computeInvoice(lraId, productInfo);
 
 		//stub for compensation scenario
-		if ("failInvoice".equals(orderInfo.getProduct().getProductId())) {
+		if ("failInvoice".equals(productInfo.getProductId())) {
 			return Response
 					.status(Response.Status.BAD_REQUEST)
-					.entity("Invoice for order " + orderInfo.getOrderId() + " failure")
+					.entity("Invoice for order saga " + lraId + " failure")
 					.build();
 		}
 
 		return Response
 				.ok()
-				.entity(String.format("Invoice for order %s processed", orderInfo.getOrderId()))
+				.entity(String.format("Invoice for order saga %s processed", lraId))
 				.build();
 	}
 

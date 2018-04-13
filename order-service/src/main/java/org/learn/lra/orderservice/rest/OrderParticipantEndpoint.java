@@ -1,4 +1,4 @@
-package org.learn.lra.shipmentservice;
+package org.learn.lra.orderservice.rest;
 
 import io.narayana.lra.annotation.Compensate;
 import io.narayana.lra.annotation.Complete;
@@ -7,11 +7,10 @@ import io.narayana.lra.client.NarayanaLRAClient;
 import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.LRAOperationAPI;
 import org.learn.lra.coreapi.ProductInfo;
+import org.learn.lra.orderservice.model.OrderDAO;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -20,37 +19,28 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@ApplicationScoped
 @Path("/")
-public class ShipmentEndpoint {
+public class OrderParticipantEndpoint {
 
-    private static final Logger log = Logger.getLogger(ShipmentEndpoint.class);
+    private static final Logger log = Logger.getLogger(OrderParticipantEndpoint.class);
 
     @EJB
-    private ShipmentService shipmentService;
+    private OrderDAO orderDAO;
 
     @POST
     @Path(LRAOperationAPI.REQUEST)
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @LRA(value = LRA.Type.REQUIRED)
-    public Response requestShipment(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri, ProductInfo productInfo) {
+    public Response persistOrder(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri, ProductInfo productInfo) {
         String lraId = NarayanaLRAClient.getLRAId(lraUri);
         log.info("processing request for LRA " + lraId);
 
-        shipmentService.computeShipment(lraId, productInfo);
-
-        //stub for compensation scenario
-        if ("failShipment".equals(productInfo.getProductId())) {
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity("Shipment for order saga " + lraId + " failure")
-                    .build();
-        }
+        orderDAO.create(productInfo, lraId);
 
         return Response
                 .ok()
-                .entity(String.format("Shipment for order saga %s processed", lraId))
+                .entity(String.format("Order for saga %s processed", lraId))
                 .build();
     }
 
@@ -60,9 +50,9 @@ public class ShipmentEndpoint {
     @Complete
     public Response completeWork(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri) {
         String lraId = NarayanaLRAClient.getLRAId(lraUri);
-        log.info("completing shipment for LRA" + lraId);
+        log.info("completing order for LRA" + lraId);
 
-        shipmentService.completeShipment(lraId);
+        orderDAO.completeOrder(lraId);
         return Response.ok().build();
     }
 
@@ -72,18 +62,9 @@ public class ShipmentEndpoint {
     @Compensate
     public Response compensateWork(@HeaderParam(NarayanaLRAClient.LRA_HTTP_HEADER) String lraUri) {
         String lraId = NarayanaLRAClient.getLRAId(lraUri);
-        log.info("compensating shipment for LRA " + lraId);
+        log.info("compensating order for LRA " + lraId);
 
-
-        shipmentService.compensateShipment(lraId);
+        orderDAO.compensateOrder(lraId);
         return Response.ok().build();
     }
-
-    @GET
-    @Path("/health")
-    @Produces("text/plain")
-    public String health() {
-        return "I'm ok";
-    }
-
 }

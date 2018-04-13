@@ -1,4 +1,4 @@
-package org.learn.lra.orderservice;
+package org.learn.lra.orderservice.model;
 
 import lombok.NoArgsConstructor;
 import org.learn.lra.coreapi.ProductInfo;
@@ -28,13 +28,21 @@ public class Order {
     @NotNull
     private int productPrice;
 
+    @NotNull
+    private String lraId;
+
     private boolean completed;
 
     public Order(ProductInfo productInfo) {
+        this(productInfo, null);
+    }
+
+    public Order(ProductInfo productInfo, String lraId) {
         this.productId = productInfo.getProductId();
         this.productComment = productInfo.getComment();
         this.productPrice = productInfo.getPrice();
         this.completed = false;
+        this.lraId = lraId;
     }
 
     public String getId() {
@@ -77,8 +85,16 @@ public class Order {
         this.completed = completed;
     }
 
+    public String getLraId() {
+        return lraId;
+    }
+
+    public void setLraId(String lraId) {
+        this.lraId = lraId;
+    }
+
     @Override
     public String toString() {
-        return String.format("Order[id: %s, product: %s]", id, productId);
+        return String.format("Order[id: %s, product: %s, saga: %s]", id, productId, lraId);
     }
 }

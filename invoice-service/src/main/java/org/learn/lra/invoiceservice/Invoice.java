@@ -19,21 +19,17 @@ public class Invoice {
     private String id;
 
     @NotNull
-    private String orderId;
-
-    @NotNull
     private String lraId;
 
     private String invoiceString;
 
     private boolean comleted;
 
-    public Invoice(String orderId, String lraId, String invoiceString) {
-        this(orderId, lraId, invoiceString, false);
+    public Invoice(String lraId, String invoiceString) {
+        this(lraId, invoiceString, false);
     }
 
-    public Invoice(String orderId, String lraId, String invoiceString, boolean comleted) {
-        this.orderId = orderId;
+    public Invoice(String lraId, String invoiceString, boolean comleted) {
         this.lraId = lraId;
         this.invoiceString = invoiceString;
         this.comleted = comleted;
@@ -41,10 +37,6 @@ public class Invoice {
 
     public String getId() {
         return id;
-    }
-
-    public String getOrderId() {
-        return orderId;
     }
 
     public String getLraId() {

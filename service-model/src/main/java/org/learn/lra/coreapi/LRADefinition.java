@@ -7,8 +7,7 @@ import java.util.List;
 
 @JsonSerialize(as = LRADefinitionImpl.class)
 @JsonDeserialize(as = LRADefinitionImpl.class)
-public interface LRADefinition
-{
+public interface LRADefinition {
 
     String getName();
 

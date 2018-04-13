@@ -1,16 +1,19 @@
-package org.learn.lra.orderservice;
+package org.learn.lra.orderservice.rest;
 
 import io.swagger.annotations.ApiOperation;
 import org.learn.lra.coreapi.ProductInfo;
+import org.learn.lra.orderservice.model.Order;
+import org.learn.lra.orderservice.model.OrderDAO;
+import org.learn.lra.orderservice.OrderService;
 
 import javax.ejb.EJB;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/")
@@ -25,9 +28,10 @@ public class OrderEndpoint {
 
     @POST
     @Path("/order")
-    @Consumes("application/json")
-    public void createOrder(ProductInfo productInfo) {
-        orderService.createOrder(productInfo);
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response createOrder(ProductInfo productInfo) {
+        return orderService.createOrderSaga(productInfo);
     }
 
     @GET
