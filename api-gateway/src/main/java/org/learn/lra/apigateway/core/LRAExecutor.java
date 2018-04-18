@@ -2,7 +2,6 @@ package org.learn.lra.apigateway.core;
 
 import io.narayana.lra.client.NarayanaLRAClient;
 import org.jboss.logging.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.LRADefinition;
 import org.learn.lra.coreapi.LRAResult;
@@ -41,7 +40,6 @@ public class LRAExecutor {
         executor.submit(() -> process(lraDefinition));
     }
 
-    @NotNull
     private LRAResult process(LRADefinition lraDefinition) {
         log.infof("Processing LRA %s", lraDefinition);
 

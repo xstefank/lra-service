@@ -30,20 +30,18 @@ public class OrderService {
     @Inject
     private ApiClient apiClient;
 
+    private LRABuilder lraDefinitionBuilder = new LRABuilder()
+            .name(ORDER_LRA)
+            .withAction(new Action("order persist", ActionType.REQUEST, Service.ORDER))
+            .withAction(new Action("shipment request", ActionType.REQUEST, Service.SHIPMENT))
+            .withAction(new Action("invoice request", ActionType.REQUEST, Service.INVOICE));
+
+
     public Response createOrderSaga(ProductInfo productInfo) {
         log.info("creating order saga...");
 
-        LRADefinition lraDefinition = new LRABuilder()
-                .name(ORDER_LRA)
-                .lraInfo(productInfo)
-                .withAction(new Action("order persist", ActionType.REQUEST, Service.ORDER))
-                .withAction(new Action("shipment request", ActionType.REQUEST, Service.SHIPMENT))
-                .withAction(new Action("invoice request", ActionType.REQUEST, Service.INVOICE))
-                .build();
-
-        String lraResult = apiClient.processLRA(lraDefinition);
-
-
+        String lraResult = apiClient.processLRA(lraDefinitionBuilder.lraInfo(productInfo).build());
+        
         return Response.ok(lraResult).build();
 
     }
