@@ -6,6 +6,7 @@ import org.learn.lra.coreapi.ProductInfo;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Stateless
 public class ShipmentService {
@@ -29,7 +30,7 @@ public class ShipmentService {
     }
 
     public void completeShipment(String lraId) {
-        Shipment shipment = findShipment(lraId);
+        Shipment shipment = findShipmentForLRA(lraId);
 
         shipment.setComleted(true);
         entityManager.merge(shipment);
@@ -39,13 +40,24 @@ public class ShipmentService {
     }
 
     public void compensateShipment(String lraId) {
-        Shipment shipment = findShipment(lraId);
+        Shipment shipment = findShipmentForLRA(lraId);
 
         entityManager.remove(shipment);
         log.infof("Shipment %s fully compensated", shipment.getId());
     }
 
-    private Shipment findShipment(String lraId) {
+    @SuppressWarnings(value = "unchecked")
+    public List<Shipment> findShipments() {
+        return (List<Shipment>) entityManager.createQuery("FROM Shipment").getResultList();
+    }
+
+    public Shipment findShipment(String shipmentId) {
+        return entityManager.createQuery("FROM Shipment WHERE id=:id", Shipment.class)
+                .setParameter("id", shipmentId)
+                .getSingleResult();
+    }
+
+    private Shipment findShipmentForLRA(String lraId) {
         return entityManager.createQuery("FROM Shipment WHERE lraId=:lraId", Shipment.class)
                 .setParameter("lraId", lraId)
                 .getSingleResult();

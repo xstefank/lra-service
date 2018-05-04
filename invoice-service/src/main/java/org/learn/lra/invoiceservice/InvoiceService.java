@@ -6,6 +6,8 @@ import org.learn.lra.coreapi.ProductInfo;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
 
 @Stateless
 public class InvoiceService {
@@ -30,7 +32,7 @@ public class InvoiceService {
 
 
     public void completeInvoice(String lraId) {
-        Invoice invoice = findInvoice(lraId);
+        Invoice invoice = findInvoiceForLRA(lraId);
 
         invoice.setComleted(true);
         entityManager.merge(invoice);
@@ -39,13 +41,24 @@ public class InvoiceService {
     }
 
     public void compensateInvoice(String lraId) {
-        Invoice invoice = findInvoice(lraId);
+        Invoice invoice = findInvoiceForLRA(lraId);
 
         entityManager.remove(invoice);
         log.infof("Invoice %s fully compensated", invoice.getId());
     }
 
-    private Invoice findInvoice(String lraId) {
+    @SuppressWarnings(value = "unchecked")
+    public List<Invoice> findInvoices() {
+        return (List<Invoice>) entityManager.createQuery("FROM Invoice").getResultList();
+    }
+
+    public Invoice findInvoice(String invoiceId) {
+        return entityManager.createQuery("FROM Invoice WHERE id=:id", Invoice.class)
+                .setParameter("id", invoiceId)
+                .getSingleResult();
+    }
+
+    private Invoice findInvoiceForLRA(String lraId) {
         return entityManager.createQuery("FROM Invoice WHERE lraId=:lraId", Invoice.class)
                 .setParameter("lraId", lraId)
                 .getSingleResult();

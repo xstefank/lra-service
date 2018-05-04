@@ -50,4 +50,10 @@ public class OrderDAO {
         List resultList = query.getResultList();
         return (List<Order>) resultList;
     }
+
+    public Order getOrder(String orderId) {
+        return em.createQuery("FROM Order WHERE id=:id", Order.class)
+                .setParameter("id", orderId)
+                .getSingleResult();
+    }
 }

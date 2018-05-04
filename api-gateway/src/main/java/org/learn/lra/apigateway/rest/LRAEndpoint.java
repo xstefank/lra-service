@@ -13,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
 
@@ -34,7 +33,7 @@ public class LRAEndpoint {
     public String lraRequest(LRADefinition lraDefinition, @Context HttpServletRequest request) {
         log.info("received lra - " + lraDefinition);
         lraExecutor.processLRA(lraDefinition);
-        return "LRA is going to be processed";
+        return "LRA " + lraDefinition.getName() + " is going to be processed";
     }
 
 

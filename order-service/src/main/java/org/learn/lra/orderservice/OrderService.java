@@ -5,7 +5,6 @@ import org.jboss.logging.Logger;
 import org.learn.lra.coreapi.Action;
 import org.learn.lra.coreapi.ActionType;
 import org.learn.lra.coreapi.LRABuilder;
-import org.learn.lra.coreapi.LRADefinition;
 import org.learn.lra.coreapi.ProductInfo;
 import org.learn.lra.coreapi.Service;
 import org.learn.lra.orderservice.model.OrderDAO;
@@ -41,7 +40,7 @@ public class OrderService {
         log.info("creating order saga...");
 
         String lraResult = apiClient.processLRA(lraDefinitionBuilder.lraInfo(productInfo).build());
-        
+
         return Response.ok(lraResult).build();
 
     }
