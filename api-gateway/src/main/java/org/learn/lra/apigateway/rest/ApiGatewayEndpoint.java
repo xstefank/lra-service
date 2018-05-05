@@ -2,7 +2,6 @@ package org.learn.lra.apigateway.rest;
 
 import io.narayana.lra.annotation.Compensate;
 import io.narayana.lra.annotation.Complete;
-import io.narayana.lra.client.LRAClient;
 import io.narayana.lra.client.NarayanaLRAClient;
 import io.swagger.annotations.ApiOperation;
 import org.jboss.logging.Logger;

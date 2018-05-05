@@ -6,7 +6,6 @@ import org.learn.lra.coreapi.ProductInfo;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.List;
 
 @Stateless

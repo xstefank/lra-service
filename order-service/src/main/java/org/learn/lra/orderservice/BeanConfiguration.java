@@ -2,7 +2,6 @@ package org.learn.lra.orderservice;
 
 import feign.Feign;
 import feign.httpclient.ApacheHttpClient;
-import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import io.narayana.lra.client.NarayanaLRAClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -21,7 +20,6 @@ public class BeanConfiguration {
     public static final String APIGATEWAY_PORT = "order.apigateway.port";
 
     private static final Logger log = Logger.getLogger(BeanConfiguration.class);
-    private static final String SERVICE_NAME = "order";
 
     @Inject
     private Config config;

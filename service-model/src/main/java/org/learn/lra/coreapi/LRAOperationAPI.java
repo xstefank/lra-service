@@ -5,7 +5,6 @@ public interface LRAOperationAPI {
     String REQUEST = "/request";
     String COMPLETE = "/complete";
     String COMPENSATE = "/compensate";
-    String STATUS = "/status";
 
 
 }
