@@ -3,15 +3,17 @@ Narayana LRA example application
 
 ## Running
 
+### Minishift
+
 1. run minishift instance according to the [setup file](setup.md)
 
-### Quick start
+#### Quick start
 
 * `./run.sh`
 
 this script assumes the configured and run minishift instance from the previous step
 
-### Manual steps
+#### Manual steps
 
 1. build service-model
  * `cd {project.dir}/service-model`
@@ -37,16 +39,39 @@ this script assumes the configured and run minishift instance from the previous 
  * `cd {project.dir}/lra-coordinator`
  * `mvn clean package fabric8:deploy`
 
-## Execution
+### Docker compose
 
-### complete
+1. `mvn clean install -Dfabric8.skip`
 
-`curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"testProduct\"}" "http://order-service-myproject.`minishift ip`.nip.io/api/order"`
+2. `docker-compose up -d --build`
 
-### compensate 
+3. shutdown - `docker-compose down --remove-orphans`
 
-`curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"failInvoice\"}" "http://order-service-myproject.`minishift ip`.nip.io/api/order"`
 
-`curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"failShipment\"}" "http://order-service-myproject.`minishift ip`.nip.io/api/order"`
+## Running
+
+### Minishift
+
+#### complete
+
+``curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"testProduct\"}" "http://order-service-myproject.`minishift ip`.nip.io/api/order"``
+
+#### compensate
+
+``curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"failInvoice\"}" "http://order-service-myproject.`minishift ip`.nip.io/api/order"``
+
+``curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"failShipment\"}" "http://order-service-myproject.`minishift ip`.nip.io/api/order"``
+
+### Docker compose
+
+#### complete
+
+`curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"testProduct\"}" "http://localhost:8080/api/order"`
+
+#### compensate
+
+`curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"failInvoice\"}" "http://localhost:8080/api/order"`
+
+`curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"comment\": \"testComment\", \"price\": 100, \"productId\": \"failShipment\"}" "http://localhost:8080/api/order"`
 
 
